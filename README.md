@@ -18,8 +18,7 @@
 
 ## 快速开始
 
-1. 到 [Releases 页面](https://github.com/feng20010612-glitch/xiaoai-ledger/releases) 下载最新版本的 exe 附件
-   （GitHub 有时会把中文文件名显示成 default.exe，约 30 MB 的那个就是程序本体）
+1. 到 [Releases 页面](https://github.com/feng20010612-glitch/xiaoai-ledger/releases) 下载 `xiaoai-ledger-v2.15.26.exe`（约 30 MB）
 2. 放到一个固定文件夹（例如 `D:\小爱记账\`），双击运行
 3. 浏览器会自动打开 `http://127.0.0.1:8899/`，这就是记账界面
 
