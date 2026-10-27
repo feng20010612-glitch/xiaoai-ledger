@@ -1,0 +1,16 @@
+# 账本数据（每个人自己的）
+data/
+data_backup/
+
+# 程序产物
+dist/
+build/
+*.exe
+*.spec
+__pycache__/
+*.pyc
+
+# 备份与日志
+code_*/
+backup_manual/
+*.log
