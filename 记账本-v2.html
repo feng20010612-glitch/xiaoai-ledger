@@ -7624,7 +7624,6 @@ async function renderStats() {
   document.getElementById('statsBalance').textContent = sbal.toFixed(2) + '';
   document.getElementById('statsBalance').style.color = sbal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = sbal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
-    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   const recMap = buildRecMap(mr);
   const agg = aggregateStatsPie(mr, recMap);
   statsPie = buildStatsPieChart(agg, 600);
@@ -7742,10 +7741,9 @@ function refreshStatsCardsAfterToggle() {
   }).reduce(function(s,r) { return s + effectiveExpenseOf(r, buildRecMap(recs)); }, 0);
   var _invV = STATS_INCLUDE_INVEST ? statsInvestIn(recs) : 0;
   renderStatsExpenseSub(visibleExp, _invV);
-  visibleExp += _invV;
   var income = calcIncome(recs);
   var bal = income - visibleExp;
-  document.getElementById('statsExpense').textContent = visibleExp.toFixed(2);
+  document.getElementById('statsExpense').textContent = (visibleExp + _invV).toFixed(2);
   document.getElementById('statsBalance').textContent = bal.toFixed(2);
   document.getElementById('statsBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
@@ -12102,7 +12100,6 @@ function renderYearlyStats() {
   document.getElementById('statsBalance').textContent = bal.toFixed(2);
   document.getElementById('statsBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
-    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   
   // 年度饼图（先清空 canvas 确保动画生效）
   const recMap = buildRecMap(recs);
@@ -12216,7 +12213,6 @@ function renderCustomStats() {
   document.getElementById('statsBalance').textContent = bal.toFixed(2);
   document.getElementById('statsBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
-    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   document.getElementById('statsCustomLabel').textContent = from + ' ~ ' + to;
 
   const recMap = buildRecMap(recs);
