@@ -28,7 +28,7 @@ BUDGET_FILE = os.path.join(DATA_DIR, 'budget.json')
 RECURRING_FILE = os.path.join(DATA_DIR, 'recurring.json')
 BACKUP_DIR = os.path.join(EXE_DIR, 'data_backup')
 VERSION_FILE = os.path.join(DATA_DIR, 'version.json')
-APP_VERSION = '2.15.26'
+APP_VERSION = '2.15.27'
 
 # 升级时只替换「程序文件」，绝不碰 data\（账本、预算、设置全保留）
 UPGRADE_PROGRAM_FILES = [
@@ -272,7 +272,7 @@ def prune_backups(keep=5):
     import shutil
     # 正常备份：只留最新 keep 份
     # ⚠ 只算**标准时间戳目录**。
-    #   2026-10-18 你报「点完立即备份就没备份了」，真因就在这里：
+    #   2026-10-18 主人报「点完立即备份就没备份了」，真因就在这里：
     #   `upgrade_<stamp>`（升级时的**程序**备份，里面没有账本）
     #   也被收进来排序，而 'u'(117) > '2'(50) → upgrade_ 目录全排在前面，
     #   把 keep 名额全占了 → 真账本备份（包括刚生成的那份）全进 dirs[keep:] 被删。
@@ -371,7 +371,7 @@ def restore_backup(name):
     return True
 
 # -- 外部备份包（导出 / 导入）--
-# 2026-10-18 你要求：能把备份存到 U 盘/别的文件夹，也能从那里选文件恢复。
+# 2026-10-18 主人要求：能把备份存到 U 盘/别的文件夹，也能从那里选文件恢复。
 # 备份包 = 一个 zip，里面平铺放 5 个账本 json（和 data_backup/<时间戳>/ 里的内容一致）。
 BACKUP_PKG_MAX_BYTES = 100 * 1024 * 1024  # 100MB，账本 json 正常只有几百 KB
 
@@ -380,7 +380,7 @@ def export_backup_package(out_dir=None):
     """把当前 data 下的账本 json 打成一个 zip，返回 zip 路径（失败返回 ''）。
 
     只打包 5 个账本文件，不碰程序，也不带 _check_records.json 这类杂物。
-    这样你可以把它存到 U 盘/网盘，需要时再选回来。
+    这样主人可以把它存到 U 盘/网盘，需要时再选回来。
 
     out_dir：输出目录。不传就放系统临时目录（导出下载用）；
              升级前自动备份会传 data_backup\\upgrade_<stamp>\\，
@@ -842,7 +842,7 @@ class Handler(BaseHTTPRequestHandler):
             except: pass
 
     # ── 导出完整项目包（干净空白账本，可直接分享给别人）──
-    # 只放「程序本体 + 空数据」，绝不带你真实数据。
+    # 只放「程序本体 + 空数据」，绝不带主人真实数据。
     # ── 一键升级：只换程序文件，数据一字不动 ──
     def upgrade_from_zip(self, body):
         """接收分享 ZIP -> 校验 -> 备份旧程序 -> 解压程序文件 -> 写版本号
@@ -911,7 +911,7 @@ class Handler(BaseHTTPRequestHandler):
 
                 # ── 检查包里有没有带文档 ──
                 #   包内缺文档时升级不会报错，但《更新日志》《使用手册》会一直停在旧版，
-                #   你会以为「升级没生效」。这里记下来，结果里明确告知。
+                #   主人会以为「升级没生效」。这里记下来，结果里明确告知。
                 docs_missing = [fn for fn in ('更新日志.md', '使用手册.md')
                                 if fn not in bases]
 
@@ -937,7 +937,7 @@ class Handler(BaseHTTPRequestHandler):
                     self.json_resp({'error': '备份旧程序失败：%s' % ex}, 500)
                     return
 
-                # —— 升级前自动导出一份账本备份（2026-10-18 你要求）——
+                # —— 升级前自动导出一份账本备份（2026-10-18 主人要求）——
                 #   放在进来就做，不管后面解压成不成功，备份都已经在了。
                 ledger_bak = backup_ledger_before_upgrade(bak_dir)
 
@@ -1011,10 +1011,10 @@ class Handler(BaseHTTPRequestHandler):
                 # ⚠⚠ 2026-10-18 重大修正：
                 #   以前这里直接 _spawn_upgrade_helper()，助手一被拉起就在后台
                 #   盯着 `.new`；一旦旧进程退了（或被杀），它就自己启动程序
-                #   → 程序每次启动都自动开浏览器 → 你没点重启也会弹窗，
+                #   → 程序每次启动都自动开浏览器 → 主人没点重启也会弹窗，
                 #   而且反复重启就弹二三十次。
                 #   现在：升级只负责把 `.new` 写好 + 写一个 bat，
-                #   **什么时候重启完全由你点按钮决定**。
+                #   **什么时候重启完全由主人点按钮决定**。
                 helper = ''
                 helper_ready = False
                 if restart_needed:
@@ -1094,7 +1094,7 @@ class Handler(BaseHTTPRequestHandler):
         tmp = os.path.join(tempfile.gettempdir(), '_xiaoai_proj_{}.zip'.format(os.getpid()))
         try:
             # 用「升级白名单」做源头，保证导出的包天然就是合格的升级包。
-            #   2026-10-18 你报「升级后更新日志/使用手册没更新」——
+            #   2026-10-18 主人报「升级后更新日志/使用手册没更新」——
             #   这里以前只写死 5 个文件，漏了 使用手册.md / 更新日志.md，
             #   升级时包里没它们，于是文档永远停在旧版。
             #   使用说明.txt / 启动.bat 由下面 writestr 现生成，这里排除掉防重名。
@@ -1108,7 +1108,7 @@ class Handler(BaseHTTPRequestHandler):
                         picked.append((fn, fp))
                         seen.add(fp)
                         break
-            # 空白 data：分类用默认表，不带你自定义过的分类/二级
+            # 空白 data：分类用默认表，不带主人自定义过的分类/二级
             empty_settings = {
                 'expenseCats': list(DEFAULT_EXPENSE),
                 'incomeCats': list(DEFAULT_INCOME),
@@ -1138,7 +1138,7 @@ class Handler(BaseHTTPRequestHandler):
                 z.writestr('启动.bat', _project_launcher())
             size = os.path.getsize(tmp)
             stamp = _dt.datetime.now().strftime('%Y%m%d')
-            # 文件名带版本号（2026-10-18 你要求）：小爱记账_空白账本_v2.15.9.zip
+            # 文件名带版本号（2026-10-18 主人要求）：小爱记账_空白账本_v2.15.9.zip
             #   原来的日期那一栏换成版本号，一眼看出是哪个版本打的包。
             fname = '小爱记账_空白账本_v{}.zip'.format(APP_VERSION)
             self.send_response(200)
@@ -1256,7 +1256,7 @@ class Handler(BaseHTTPRequestHandler):
             elif p == '/api/shutdown':
                 _q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
                 _relaunch = (_q.get('relaunch', ['0'])[0] or '0').lower() in ('1', 'true', 'yes')
-                # ⚠ 2026-10-18：relaunch=1 只会在**你点了「立即重启」**时出现，
+                # ⚠ 2026-10-18：relaunch=1 只会在**主人点了「立即重启」**时出现，
                 #   这是唯一允许拉起助手的地方（升级本身绝不拉起）。
                 #   如果真活不到就自己开一个 \"_restart_once.bat\"？不需要：
                 #   前端会在 60 秒后给兜底提示。
@@ -1729,9 +1729,9 @@ class Handler(BaseHTTPRequestHandler):
                 pass
 
 def backup_ledger_before_upgrade(bak_dir):
-    """升级前自动导出一份「数据备份包」（2026-10-18 你要求）。
+    """升级前自动导出一份「数据备份包」（2026-10-18 主人要求）。
 
-    你：「升级那里也改一下，把他改成升级时自动导出一份数据备份包就行了」
+    主人：「升级那里也改一下，把他改成升级时自动导出一份数据备份包就行了」
 
     直接用 export_backup_package()，导出来的就是设置页「导出备份包」同一个格式
     （小爱记账备份_<时间戳>.zip + 备份说明.txt），
@@ -1783,7 +1783,7 @@ def _write_staged_exe(dest, blob):
 
     返回 (ok, reason)。
 
-    ⚠️ 2026-10-18 你实际遇到的 bug：
+    ⚠️ 2026-10-18 主人实际遇到的 bug：
     `[Errno 13] Permission denied: '...小爱记账.exe.new'`
 
     现场证据：用户的目录里连续升级了三次（02:19:59 / 02:20:19 / 02:20:36），
@@ -1847,11 +1847,11 @@ def _upgrade_helper_bat():
 
     ⚠⚠ 2026-10-18 第六版，改了一个**非常严重的错误**：
 
-    你反馈：「只要点击升级选完文件后，如果不点击“立即重启”就一直弹窗，一直跳」
+    主人反馈：「只要点击升级选完文件后，如果不点击“立即重启”就一直弹窗，一直跳」
     —— 至少二三十个浏览器窗口。
 
     根因是前几版的设计错得离谱：
-      助手被拉起来后**根本不等你点重启**，只要发现 `.new` 存在、
+      助手被拉起来后**根本不等主人点重启**，只要发现 `.new` 存在、
       而旧进程刚好还没跑（或者已经被杀），它就 `explorer.exe` 启动程序；
       而**程序每次启动都会自动开一个浏览器窗口**。
       于是：重试 + 多开助手 + 程序自启动浏览器 = 无限弹窗。
@@ -1961,7 +1961,7 @@ def _spawn_upgrade_helper(helper_path):
         # ⚠⚠ 2026-10-18 第七版修正：**不要用 DETACHED_PROCESS**。
         #   DETACHED = “完全不要控制台”，这会让子进程里的控制台程序
         #   （`timeout` 之类）自己新开一个**可见窗口** ——
-        #   你看到的两个黑窗就是这么来的。
+        #   主人看到的两个黑窗就是这么来的。
         #   改用 CREATE_NO_WINDOW：同样不显示窗口，但是给了一个隐藏控制台，
         #   子进程不会再去新建可见窗口。
         if hasattr(subprocess, 'CREATE_NO_WINDOW'):
@@ -2031,7 +2031,7 @@ def _project_readme():
         '',
         '【要注意】',
         '- 只在本机运行，不联网，数据不上传到任何地方',
-        '- 端口固定 8899，打不开先看看是不是被别的程序占了',
+        '- 默认端口 8899（想换端口就在程序目录放 port.txt），打不开先看看是不是被别的程序占了',
         '- 换电脑 / 换U盘：整个文件夹拷过去就能用，数据跟着走',
         '',
         '【它是个空的】',
@@ -2045,7 +2045,7 @@ def _clean_upgrade_debris():
     """程序启动时清理上一次升级留下的残渣。
 
     为什么要做：
-      ① 你可能没有点「立即重启」，而是自己手动关了再开的程序 ->
+      ① 主人可能没有点「立即重启」，而是自己手动关了再开的程序 ->
          `.new` 就永远留在那里，下次升级又去写它、又撞上占用。
       ② 助手如果被任务管理器杀掉，`_helper.lock` 会残留 ->
          以后每次启动助手都 `if exist "%LOCK%" exit /b` 直接退出，
@@ -2089,8 +2089,110 @@ def _clean_upgrade_debris():
         pass
 
 
+# ── 端口配置（2026-10-28）────────────────────────────────────────────
+#   同一台电脑可以放多份账本（比如一份正式账、一份空白账本拿来试功能）。
+#   每份账本用不同端口，浏览器地址就不同，互不踩脚。
+#   解析顺序：环境变量 XIAOAI_LEDGER_PORT > 程序目录 port.txt > 默认 8899
+DEFAULT_PORT = 8899
+
+
+def _read_port_file():
+    try:
+        p = os.path.join(EXE_DIR, 'port.txt')
+        if os.path.isfile(p):
+            with open(p, 'r', encoding='utf-8-sig', errors='ignore') as f:
+                for line in f:
+                    s = line.strip()
+                    if not s or s.startswith('#'):
+                        continue
+                    return int(s)
+    except Exception:
+        pass
+    return None
+
+
+def _resolve_port():
+    for raw_v in (os.environ.get('XIAOAI_LEDGER_PORT'), _read_port_file()):
+        try:
+            if raw_v not in (None, ''):
+                n = int(str(raw_v).strip())
+                if 1024 <= n <= 65535:
+                    return n
+        except Exception:
+            pass
+    return DEFAULT_PORT
+
+
+def _self_exe_path():
+    try:
+        if getattr(sys, 'frozen', False):
+            return os.path.abspath(sys.executable)
+        return os.path.abspath(__file__)
+    except Exception:
+        return ''
+
+
+def _same_path(a, b):
+    try:
+        if not a or not b:
+            return False
+        return os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+    except Exception:
+        return False
+
+
+def _pid_exe_path(pid):
+    try:
+        import subprocess
+        out = subprocess.check_output(
+            ['powershell', '-NoProfile', '-Command',
+             '(Get-Process -Id %d -ErrorAction SilentlyContinue).Path' % int(pid)],
+            stderr=subprocess.DEVNULL)
+        return out.decode('gbk', 'ignore').strip()
+    except Exception:
+        return ''
+
+
+def _pid_cmdline(pid):
+    """取进程命令行（脚本模式下用它判断是不是同一份账本）。"""
+    try:
+        import subprocess
+        out = subprocess.check_output(
+            ['powershell', '-NoProfile', '-Command',
+             '(Get-CimInstance Win32_Process -Filter "ProcessId=%d" | '
+             'Select-Object -ExpandProperty CommandLine)' % int(pid)],
+            stderr=subprocess.DEVNULL)
+        return out.decode('gbk', 'ignore').strip()
+    except Exception:
+        return ''
+
+
+def _is_same_instance(pid):
+    """这个 pid 是不是「同一个文件夹里的自己」。
+    exe 模式比对可执行文件路径；脚本模式再比对命令行里的脚本路径。
+    """
+    me = _self_exe_path()
+    if not me:
+        return False
+    if _same_path(_pid_exe_path(pid), me):
+        return True
+    if not getattr(sys, 'frozen', False):
+        cmd = _pid_cmdline(pid)
+        if cmd and os.path.normcase(me) in os.path.normcase(cmd):
+            return True
+    return False
+
+
+def _msgbox(text, title='小爱记账'):
+    try:
+        import ctypes
+        ctypes.windll.user32.MessageBoxW(None, text, title, 0x40)
+    except Exception:
+        pass
+
+
 def main():
-    PORT = 8899
+    PORT = _resolve_port()
     # ⚠ 2026-10-18：先记下「这次是不是升级后的自动重启」，再去做清残。
     #   因为 _clean_upgrade_debris() 会把 _helper.launched 删掉，
     #   如果先清再判，就永远判不到 → 浏览器又开了 → 又弹窗。
@@ -2099,24 +2201,25 @@ def main():
     except Exception:
         _post_upgrade_launch = False
 
-    # 杀掉占着本端口的旧进程（只处理自己的端口）
-    #   ⚠ 2026-10-18：以前这里把 8899 写死，测试用临时端口起实例时
-    #   照样去 taskkill 8899 上的进程 —— 把你的正式程序干掉了。
-    #   现在只在 PORT 就是正式端口时才做清理。
+    # 只清理「同一个文件夹」里占着本端口的旧进程（同一份账本重开时接管）
+    #   ⚠ 2026-10-18：以前端口写死 8899，测试实例会把正式程序杀掉。
+    #   ⚠ 2026-10-28：同机可以有多份账本（不同文件夹）。路径不同就是不同账本，
+    #   绝不能互相杀 —— 只有 exe 路径和本次完全一致才清理。
     try:
-        if PORT == 8899:
-            import subprocess
-            out = subprocess.check_output('netstat -ano | findstr :%d' % PORT,
-                                          shell=True, text=True)
-            for line in out.strip().split('\n'):
-                parts = line.strip().split()
-                if len(parts) >= 5 and 'LISTENING' in line:
-                    pid = int(parts[-1])
-                    if pid != 0 and pid != os.getpid():
+        import subprocess
+        out = subprocess.check_output('netstat -ano | findstr :%d' % PORT,
+                                      shell=True, text=True)
+        for line in out.strip().split('\n'):
+            parts = line.strip().split()
+            if len(parts) >= 5 and 'LISTENING' in line:
+                pid = int(parts[-1])
+                if pid and pid != os.getpid():
+                    if _is_same_instance(pid):
                         subprocess.call('taskkill /f /pid %d' % pid, shell=True,
                                         stdout=subprocess.DEVNULL,
                                         stderr=subprocess.DEVNULL)
-    except: pass
+    except Exception:
+        pass
     time.sleep(0.5)
 
     # 启动时自动备份（每天最多一次）
@@ -2153,14 +2256,24 @@ def main():
         pass
 
     # 启动服务器
-    srv = ThreadingHTTPServer(('127.0.0.1', PORT), Handler)
+    #   2026-10-28：端口被另一份账本占着时别静默崩掉 —— 弹提示说明怎么改端口
+    try:
+        srv = ThreadingHTTPServer(('127.0.0.1', PORT), Handler)
+    except OSError as _e:
+        _msg = ('端口 %d 起不来（%s）。\n\n'
+                '如果这是另一份账本（不在同一个文件夹），请在本程序目录新建 '
+                'port.txt，写一个没用过的端口号（比如 8907），再重新打开。\n\n'
+                '如果是同一份账本重复打开了，关掉多余的那个再试。' % (PORT, _e))
+        print(_msg)
+        _msgbox(_msg)
+        return
     srv.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     # 子线程开浏览器，不阻塞主线程
-    # ⚠⚠ 2026-10-18：**只有你手动双击启动时才开浏览器**。
+    # ⚠⚠ 2026-10-18：**只有主人手动双击启动时才开浏览器**。
     #   以前无条件开 → 升级/重启循环时每启动一次就弹一个窗口，
-    #   实测弹了二三十次（你的原话：「一直弹窗，一直跳」）。
-    #   现在：升级后自动重启的那一次不开（你本来就有页面）。
+    #   实测弹了二三十次（主人的原话：「一直弹窗，一直跳」）。
+    #   现在：升级后自动重启的那一次不开（主人本来就有页面）。
     def _open_browser():
         time.sleep(0.5)
         try: webbrowser.open('http://127.0.0.1:%d/' % PORT)

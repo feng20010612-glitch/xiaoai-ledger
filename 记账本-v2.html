@@ -40,6 +40,10 @@
   --red: #ef4444;
   --green: #22c55e;
   --orange: #f59e0b;
+  /* 概览卡数字专用：同色系加深一档（2026-10-28 主人反馈太浅） */
+  --red-deep: #b91c1c;
+  --green-deep: #15803d;
+  --orange-deep: #c2410c;
 }
 
 body {
@@ -847,7 +851,7 @@ body {
   height: 4px;
   border-radius: 50%;
 }
-/* 小圆点已弃用，改用浅色背景块（2026-10-18 你要求） */
+/* 小圆点已弃用，改用浅色背景块（2026-10-18 主人要求） */
 
 .mp-foot {
   display: flex;
@@ -1010,7 +1014,7 @@ body {
   height: 3.5px;
   border-radius: 50%;
 }
-/* 记账页/区间的日期日历不再标「有账目」（2026-10-18 你要求） */
+/* 记账页/区间的日期日历不再标「有账目」（2026-10-18 主人要求） */
 
 /* 月份视图（点标题切换）：与 .mp-pop 一致 */
 .dp-grid.dp-months { grid-template-columns: repeat(4, 1fr); gap: 5px; }
@@ -1964,7 +1968,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   padding: 1px 9px;
 }
 
-/* 付款方式分段（2026-10-17 你要求）：不铺满整行，按内容宽度收窄 */
+/* 付款方式分段（2026-10-17 主人要求）：不铺满整行，按内容宽度收窄 */
 #rcInstSeg {
   align-self: flex-start;
   width: -webkit-fit-content;
@@ -2708,7 +2712,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   100% { opacity: 1; }
 }
 
-/* ── 转圈图标（2026-10-18 你要求：升级重启那个圈要会转）──
+/* ── 转圈图标（2026-10-18 主人要求：升级重启那个圈要会转）──
    ⚠ 之前只有 HTML 里写了 class、CSS 里根本没定义，所以它一直静止。
    用 spin 关键帧 + linear 无限循环，视觉上就是一直转。 */
 @keyframes xiaoaiSpin {
@@ -2949,7 +2953,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   gap: 7px;
   font-size: var(--fs-sm);
   font-weight: 600;
-  /* 大标题也改正文黑（2026-10-01 你要求） */
+  /* 大标题也改正文黑（2026-10-01 主人要求） */
   color: var(--text-primary);
   letter-spacing: .6px;
   margin-bottom: 6px;
@@ -2971,7 +2975,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   align-items: baseline;
   gap: 4px;
 }
-/* 「保存每月预算」行：让右边那个 🚫 按钮与左边按钮等高（2026-10-01 你要求）
+/* 「保存每月预算」行：让右边那个 🚫 按钮与左边按钮等高（2026-10-01 主人要求）
    注意：.btn-outline 带 1.5px 边框，border-box 下会比无边框的 .btn-primary 高 3px，
    所以两边都显式定高，不然看起来一高一矮。 */
 .budget-save-row {
@@ -3105,7 +3109,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
 
 /* 本月卡 + 本月支出分类：等宽并排同一行（与下方图表卡一致，均为 1:1）
    用 grid 而非 flex：flex 下两个 1 1 0% 的项目因内部内容最小宽度不同，
-   实际会跑出 630/670 这种不等宽（2026-10-01 你指出）。 */
+   实际会跑出 630/670 这种不等宽（2026-10-01 主人指出）。 */
 .month-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3151,6 +3155,14 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
 /* 概览卡与下方本月卡之间的间距 */
 .summary-cards.summary-top { margin-bottom: 16px; }
 .summary-cards.summary-top { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* 2026-10-28：六张卡等高 —— 总资产卡多了「成本/浮盈亏」副行，不能让两行高度不一致 */
+.summary-cards.summary-top { grid-auto-rows: 1fr; }
+.summary-cards.summary-top > .summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.summary-cards.summary-top > .summary-card .label { justify-content: center; }
 #statsCards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 /* 是否还留着「年度对比」那组 4 张卡（已删，用 :not 兜底不影响其他网格） */
 .summary-cards:not(.summary-top):not(#statsCards) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -3181,6 +3193,13 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   gap: 6px;
   flex-wrap: wrap;
 }
+/* 统计页「小字说明」加深（2026-10-28）—— 只作用于统计页，总览卡片金额与标题不动 */
+#tab-stats #statsCards .summary-card .label { color: #334155; font-weight: 600; }
+#tab-stats #statsCards .summary-card .label > span { color: #475569 !important; }
+#tab-stats .stats-cat-toolbar span { color: #334155; }
+#tab-stats .stat-cat-pct-light { color: #475569; }
+#tab-stats #statsExportHint { color: #334155; }
+
 .summary-card .label > span {
   font-size: var(--fs-2xs) !important;
   color: var(--text-muted) !important;
@@ -3337,7 +3356,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   box-sizing: border-box;
   border-radius: 8px;
 }
-/* 2026-10-18 你要求：「选月份」「导出数据」两个按钮高度/观感一致 */
+/* 2026-10-18 主人要求：「选月份」「导出数据」两个按钮高度/观感一致 */
 .month-nav .mp-trigger,
 .month-nav .btn {
   height: 30px;
@@ -3350,7 +3369,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   line-height: 1;
   border-radius: 8px;
   padding: 0 14px;
-  /* 2026-10-18 你要求：边框去掉，靠底色区分，更干净 */
+  /* 2026-10-18 主人要求：边框去掉，靠底色区分，更干净 */
   border: none;
   background: #f1f5f9;
   color: var(--text-secondary);
@@ -3635,8 +3654,8 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
     <div class="summary-card income-card"><div class="label">总收入</div><div class="val income" id="dashTotalIncome">0</div></div>
     <div class="summary-card expense-card"><div class="label">总支出</div><div class="val expense" id="dashTotalExpense">0</div></div>
     <div class="summary-card balance-card"><div class="label">结余</div><div class="val" id="dashBalance">0</div></div>
-    <div class="summary-card" onclick="showDepositModal()" style="cursor:pointer;"><div class="label">💰 存款<span style="font-size:10px;color:#999;margin-left:4px;">📋 详情</span></div><div class="val" id="dashDeposit" style="color:#fb923c;">0</div></div>
-    <div class="summary-card asset-card" onclick="showInvestModal()" style="cursor:pointer;"><div class="label">总资产（理财）<span style="font-size:10px;color:#999;margin-left:4px;">📋 详情</span></div><div class="val asset" id="dashAsset">0</div></div>
+<div class="summary-card" onclick="jumpToBills('deposit')" style="cursor:pointer;"><div class="label">💰 存款<span style="font-size:10px;color:#999;margin-left:4px;">📋 明细</span></div><div class="val" id="dashDeposit" style="color:#fb923c;">0</div></div>
+<div class="summary-card asset-card" onclick="jumpToBills('asset')" style="cursor:pointer;position:relative;"><div class="label">总资产（理财）<span style="font-size:10px;color:#999;margin-left:4px;">📋 明细</span></div><div class="val asset" id="dashAsset">0</div><div id="dashAssetSub" style="font-size:11px;color:var(--text-secondary);margin-top:2px;line-height:1.4;">成本 0.00 · 浮盈亏 0.00 (0.00%)</div><span onclick="event.stopPropagation();openAssetValueModal()" title="更新市值" style="position:absolute;right:8px;top:8px;font-size:10px;color:#6366f1;background:#eef2ff;border-radius:6px;padding:2px 6px;cursor:pointer;">✏ 市值</span></div>
     <div class="summary-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.10),#ffffff);"><div class="label">可用余额<span style="font-size:10px;color:#999;margin-left:4px;">💰 手上可花</span></div><div class="val" id="dashAvailable" style="color:#6366f1;">0</div></div>
   </div>
   
@@ -3921,6 +3940,13 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   <div class="page-title">账单</div>
   <!-- 筛选卡：条件 / 金额 / 日期 / 排序 分组，控件统一尺寸 -->
   <div class="filter-card">
+    <div class="fc-row" id="assetScopeRow">
+      <span class="fc-label">资产</span>
+      <span class="fc-tool on" data-scope="all" onclick="setAssetScope('all')">全部</span>
+      <span class="fc-tool" data-scope="deposit" onclick="setAssetScope('deposit')">🏦 只看存款</span>
+      <span class="fc-tool" data-scope="asset" onclick="setAssetScope('asset')">📈 只看总资产</span>
+      <span id="assetScopeHint" style="font-size:11px;color:var(--text-secondary);margin-left:6px;"></span>
+    </div>
     <div class="fc-row">
       <span class="fc-label">条件</span>
       <button type="button" class="fc-ctl mp-trigger" id="filterMonthBtn" onclick="openFilterMonthPicker()" title="点开选月份">所有月份</button>
@@ -4020,6 +4046,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
     <button class="btn btn-sm btn-outline" id="trashBtn" onclick="openTrash()" title="查看已删除的记录，可以恢复回来；超期的会自动清理">🗑️ 回收站<span id="trashCount" style="display:none;margin-left:4px;background:#ef4444;color:#fff;border-radius:8px;padding:0 5px;font-size:11px;"></span></button>
     <button class="btn btn-sm btn-outline" id="genDemoBtn" onclick="openDemoGen()" title="生成一批示例账单，方便分享 / 演示" style="color:#6366f1;border-color:#6366f1;">🎲 随机生成账本</button>
   </div>
+  <div id="snapshotRows" style="display:none;"></div>
   <div class="list-split">
     <div class="list-col">
       <div class="section-label" style="color:#6366f1;margin-bottom:6px;">💸 支出</div>
@@ -4086,7 +4113,7 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
     <!-- 概览卡 -->
     <div class="summary-cards" id="statsCards">
       <div class="summary-card income-card"><div class="label" id="statsCardsLabelInc">收入</div><div class="val income" id="statsIncome">0</div></div>
-      <div class="summary-card expense-card"><div class="label" id="statsCardsLabelExp">支出</div><div class="val expense" id="statsExpense">0</div></div>
+      <div class="summary-card expense-card" style="position:relative;"><div class="label" id="statsCardsLabelExp">支出</div><div class="val expense" id="statsExpense">0</div><div id="statsExpenseSub" style="display:none;position:absolute;right:12px;bottom:7px;font-size:11px;line-height:1.3;color:#334155;text-align:right;"></div></div>
       <div class="summary-card balance-card"><div class="label" id="statsCardsLabelBal">结余</div><div class="val" id="statsBalance">0</div></div>
     </div>
     <!-- 自定义区间导航 -->
@@ -4108,6 +4135,13 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
     <!-- 年度总结卡 -->
     <div id="statsYearSummaryCard" style="display:none;margin-bottom:12px;"></div>
     <!-- 饼图+分类明细 flex -->
+    <div style="display:flex;justify-content:flex-end;align-items:center;margin:-2px 0 10px;">
+      <label id="statsInvestToggle" title="勾上后：饼图 / 分类明细 / 本月支出都把「理财存入」算进去" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#4f46e5;background:#eef2ff;border:1px solid #c7d2fe;border-radius:999px;padding:6px 14px 6px 10px;cursor:pointer;transition:background .2s,color .2s,border-color .2s;box-shadow:0 1px 2px rgba(99,102,241,.12);">
+        <input type="checkbox" id="statsIncludeInvest" onchange="toggleStatsIncludeInvest(this.checked)" style="width:16px;height:16px;accent-color:#6366f1;cursor:pointer;">
+        含理财存入
+        <span id="statsInvestToggleHint" style="font-size:11px;font-weight:500;color:#6366f1;">默认不计入</span>
+      </label>
+    </div>
     <div class="stats-content-flex" id="statsPieSection">
       <div class="stats-pie-wrap"><canvas id="statsPie"></canvas></div>
       <div class="stats-cat-right">
@@ -4323,6 +4357,22 @@ input.dp-input.dp-stats::placeholder { color: #9aa8bd; }
   </div>
 </div>
 
+<div class="cat-modal" id="assetValueModal" onclick="event.target===this&&closeAssetValueModal()">
+  <div class="cat-modal-inner" style="max-width:400px;">
+    <h3>📉 更新理财市值</h3>
+    <div style="font-size:12px;color:var(--text-secondary);line-height:1.7;margin-bottom:10px;">
+      填<b>今天账户里的实际金额</b>（不是盈亏），小爱自动算浮盈/浮亏。<br>
+      当前成本：<strong id="assetValueCost">0.00</strong> ｜ 上次市值：<span id="assetValueLast">未填</span>
+    </div>
+    <input type="number" id="assetValueInput" class="fc-ctl" step="0.01" min="0" placeholder="比如 43000" oninput="previewAssetValue()" style="width:100%;margin-bottom:8px;box-sizing:border-box;">
+    <div id="assetValuePreview" style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;min-height:20px;">输入后自动算浮盈/浮亏</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn btn-sm btn-outline" onclick="clearAssetValue()" style="color:#ef4444;border-color:#fecaca;">清除市值</button>
+      <button class="btn btn-sm btn-outline" onclick="closeAssetValueModal()">取消</button>
+      <button class="btn btn-sm" onclick="saveAssetValue()" style="background:#6366f1;color:#fff;">保存</button>
+    </div>
+  </div>
+</div>
 <div class="cat-modal" id="investModal" onclick="event.target===this&&closeInvestModal()">
   <div class="cat-modal-inner" style="max-width:420px;">
     <h3>📈 理财明细</h3>
@@ -4501,6 +4551,49 @@ function isInvestRole(cat) {
   return r === 'investIn' || r === 'investLoss' || r === 'investWithdraw' || r === 'investProfit';
 }
 function isNonConsumeExpense(cat) { var r = roleOf(cat); return r === 'investIn' || r === 'saveIn'; }
+// 统计口径（2026-10-28）：默认仍是「不含理财/存款类」，开关打开后统计里也算进去
+function isNonConsumeExpenseScoped(cat) {
+  // 开关打开后只把「理财存入」算进来；存款存入仍算资产搬家（口径与卡片小字一致）
+  if (STATS_INCLUDE_INVEST && roleOf(cat) === 'investIn') return false;
+  return isNonConsumeExpense(cat);
+}
+
+// 统计口径：理财存入合计 + 支出卡右下角小字（2026-10-28）
+function statsInvestIn(recs) {
+  var cents = 0;
+  (recs || []).forEach(function(r) {
+    if (r.type !== 'expense') return;
+    if (roleOf(r.category) !== 'investIn') return;
+    cents += Math.round((Number(r.amount) || 0) * 100);
+  });
+  return cents / 100;
+}
+
+function renderStatsExpenseSub(realExp, extra) {
+  var el = document.getElementById('statsExpenseSub');
+  if (!el) return;
+  if (STATS_INCLUDE_INVEST && extra > 0.004) {
+    el.style.display = 'block';
+    el.textContent = '实际支出 ' + realExp.toFixed(2) + ' + 理财存入 ' + extra.toFixed(2);
+  } else {
+    el.style.display = 'none';
+    el.textContent = '';
+  }
+}
+
+function applyStatsToggleStyle() {
+  var lab = document.getElementById('statsInvestToggle');
+  var hint = document.getElementById('statsInvestToggleHint');
+  if (lab) {
+    lab.style.background = STATS_INCLUDE_INVEST ? '#6366f1' : '#eef2ff';
+    lab.style.borderColor = STATS_INCLUDE_INVEST ? '#4f46e5' : '#c7d2fe';
+    lab.style.color = STATS_INCLUDE_INVEST ? '#ffffff' : '#4f46e5';
+  }
+  if (hint) {
+    hint.textContent = STATS_INCLUDE_INVEST ? '已计入支出' : '默认不计入';
+    hint.style.color = STATS_INCLUDE_INVEST ? 'rgba(255,255,255,.85)' : '#6366f1';
+  }
+}
 function isNormalIncome(cat) {
   var r = roleOf(cat);
   return r !== 'refund' && r !== 'investWithdraw' && r !== 'investProfit' && r !== 'saveOut';
@@ -4514,6 +4607,11 @@ var onlyNoSub = false;            // 账单页：只看没有二级的记录
 let statsTableSortDesc = true; // 年度/月度汇总表格：true=倒序(最近), false=正序(最早)
 // 统计页被隐藏的分类名集合（跨月度/年度/自定义视图共享，切换视图后仍保留）
 var hiddenStatsCats = new Set();
+// 理财盈亏（2026-10-28）——市值快照存在 settings 里，不进 records，不影响收支 / 预算 / 结余
+var ASSET_SNAPSHOTS = [];         // [{date:'YYYY-MM-DD', value:number}]
+var STATS_INCLUDE_INVEST = false; // 饼图 / 分类明细是否含「理财存入」这类资产搬家
+var _assetScope = 'all';           // 账单页：all | deposit | asset
+var _assetModalCost = 0;
 var hiddenStatsSubs = new Set();   // 二级粒度下的隐藏集合（与一级互不干扰）
 var statsCatLevel = 1;             // 饼图粒度：1=一级分类，2=二级分类
 // 记录映射（id->record），用于退款关联展示
@@ -4554,6 +4652,14 @@ async function loadSettings() {
       if (!isNaN(_td) && _td >= 0) TRASH_KEEP_DAYS = _td;
     }
   BUDGET_INCL_INVEST_LOSS = !!(s && s.budgetInclInvestLoss === true); // 默认不计入理财亏损
+    ASSET_SNAPSHOTS = (s && Object.prototype.toString.call(s.assetSnapshots) === '[object Array]')
+      ? s.assetSnapshots.filter(function(x) { return x && x.date && isFinite(parseFloat(x.value)); })
+          .map(function(x) { return { date: String(x.date), value: parseFloat(x.value) }; })
+      : [];
+    STATS_INCLUDE_INVEST = !!(s && s.statsIncludeInvest === true);
+    var _siEl = document.getElementById('statsIncludeInvest');
+    if (_siEl) _siEl.checked = STATS_INCLUDE_INVEST;
+    applyStatsToggleStyle();
     const sm = localStorage.getItem('feng_stats_month');
     if (sm) statsMonth = sm;
     const sb = localStorage.getItem('feng_sort_by');
@@ -4567,7 +4673,7 @@ async function loadSettings() {
 var NO_SUB_CATS = [];   // 关闭了二级分类的一级分类（2026-10-24）
 
 function saveSettings() {
-  apiPost('/settings', { expenseCats: EXPENSE_CATS, incomeCats: INCOME_CATS, customIcons: CUSTOM_ICONS, subCats: SUB_CATS, noSubCats: NO_SUB_CATS, carryover: CARRYOVER, budgetInclInvestLoss: BUDGET_INCL_INVEST_LOSS, trashDays: TRASH_KEEP_DAYS });
+  apiPost('/settings', { expenseCats: EXPENSE_CATS, incomeCats: INCOME_CATS, customIcons: CUSTOM_ICONS, subCats: SUB_CATS, noSubCats: NO_SUB_CATS, carryover: CARRYOVER, budgetInclInvestLoss: BUDGET_INCL_INVEST_LOSS, trashDays: TRASH_KEEP_DAYS, assetSnapshots: ASSET_SNAPSHOTS, statsIncludeInvest: STATS_INCLUDE_INVEST });
 }
 
 // ── 每月预算预警 ──
@@ -4625,7 +4731,7 @@ function budgetOf(month) {
 
 // 某月净支出（预算口径）
 // 预算只看真实消费：默认排除理财存入/取出/收入、存款搬移，以及理财亏损
-// （投资浮亏不是日常消费）。若你在设置里勾选「理财亏损计入预算」，
+// （投资浮亏不是日常消费）。若主人在设置里勾选「理财亏损计入预算」，
 // 则把理财亏损也算进预算占用。
 function netExpenseOfMonth(month, all) {
   var recs = all.filter(function(r) { return r.date && r.date.startsWith(month); });
@@ -5005,7 +5111,7 @@ function toggleBudgetScope() {
 }
 
 function renderBudgetSettings() {
-  // 2026-10-18 你要求：选月份框启动就显示当前月份（2026-10），
+  // 2026-10-18 主人要求：选月份框启动就显示当前月份（2026-10），
   // 不能显示「选择月份」占位。
   // ⚠️ 顺序很重要：必须先赋值、再刷新按钮文字，反了就读到空值。
   var mEl = document.getElementById('budgetMonth');
@@ -5049,7 +5155,7 @@ function animateNumber(el, target) {
 
 // ── 切页时显式重播卡片入场动画 ──
 //   原因：display:none ⇄ block 的隐式重播不保准，
-//   你报「滑到最底部→切走→切回，数据备份卡没渐显」。
+//   主人报「滑到最底部→切走→切回，数据备份卡没渐显」。
 //   这里把目标页的卡片先关掉动画、强制重排、再恢复，
 //   保证每次切过来都从头渐显一遍。
 function replayTabEnterAnim(root) {
@@ -5088,7 +5194,7 @@ function switchTab(name) {
     });
   }
   if (typeof dpBindAll === 'function') { try { dpBindAll(); } catch (e) {} }
-  if (name === 'list') renderList();
+  if (name === 'list') { renderList(); renderSnapshotRows(); }
   if (name === 'add') { updateRecentDates(); populateAddForms(); renderRecurring(); }
   if (name === 'settings') renderSettings();
   // 切完就把目标页的入场动画重播一遍
@@ -5114,7 +5220,7 @@ function syncSubCatRow(type, cat) {
   if (!wrap || !box) return;
   var subs = getSubCats(cat);
   if (NO_SUB_CATS.indexOf(cat) >= 0 || !subs.length) {
-    // 没有二级时不能 display:none —— 那会让整张卡片变矮、切分类时跳动（你 2026-10-24 报）。
+    // 没有二级时不能 display:none —— 那会让整张卡片变矮、切分类时跳动（主人 2026-10-24 报）。
     // 保留这一行的高度，只是内容看不见。
     wrap.style.display = '';
     wrap.style.visibility = 'hidden';
@@ -6378,6 +6484,141 @@ function loadMoreList(type) {
 function loadMoreExpense() { loadMoreList('expense'); }
 function loadMoreIncome() { loadMoreList('income'); }
 
+// ── 账单页：存款 / 总资产 筛选 + 市值快照（2026-10-28）──────────────
+function setAssetScope(scope) {
+  _assetScope = (scope === 'deposit' || scope === 'asset') ? scope : 'all';
+  document.querySelectorAll('#assetScopeRow .fc-tool').forEach(function(el) {
+    el.classList.toggle('on', el.getAttribute('data-scope') === _assetScope);
+  });
+  var hint = document.getElementById('assetScopeHint');
+  if (hint) {
+    hint.textContent = _assetScope === 'deposit' ? '只显示存款类记录'
+      : (_assetScope === 'asset' ? '只显示理财 / 总资产类记录（含市值更新）' : '');
+  }
+  renderSnapshotRows();
+  renderList();
+}
+
+function jumpToBills(scope) {
+  switchTab('list');
+  setAssetScope(scope || 'all');
+  setTimeout(function() {
+    var el = document.getElementById('tab-list');
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }, 80);
+}
+
+function renderSnapshotRows() {
+  var box = document.getElementById('snapshotRows');
+  if (!box) return;
+  if (_assetScope !== 'asset') { box.style.display = 'none'; box.innerHTML = ''; return; }
+  getRecordsCached().then(function(all) {
+    if (!ASSET_SNAPSHOTS.length) { box.style.display = 'none'; box.innerHTML = ''; return; }
+    var mkt = investMarket(all);
+    var sorted = ASSET_SNAPSHOTS.slice().sort(function(a, b) { return a.date < b.date ? 1 : -1; });
+    var html = '<div style="background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 12px;margin-bottom:10px;">' +
+      '<div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">📉 市值快照（只用于算浮盈亏，不进收支 / 预算）</div>';
+    sorted.forEach(function(s, i) {
+      var delta = s.value - mkt.cost;
+      html += '<div style="display:flex;align-items:center;gap:8px;font-size:12px;padding:4px 0;' +
+        (i === 0 ? 'font-weight:600;' : '') + '">' +
+        '<span style="color:#64748b;">' + s.date + '</span>' +
+        '<span style="flex:1;">市值 <b>￥' + s.value.toFixed(2) + '</b></span>' +
+        '<span style="color:' + (delta >= 0 ? 'var(--red)' : 'var(--green)') + ';">' +
+        (delta >= 0 ? '+' : '') + delta.toFixed(2) + '</span>' +
+        '<button class="btn btn-sm btn-outline" style="padding:1px 8px;font-size:11px;" ' +
+        'onclick="deleteAssetSnapshot(\'' + s.date + '\')">删除</button></div>';
+    });
+    html += '</div>';
+    box.innerHTML = html;
+    box.style.display = 'block';
+  });
+}
+
+function deleteAssetSnapshot(date) {
+  ASSET_SNAPSHOTS = ASSET_SNAPSHOTS.filter(function(x) { return x.date !== date; });
+  saveSettings();
+  renderSnapshotRows();
+  renderDashboard();
+  showToast('已删除 ' + date + ' 的市值喵');
+}
+
+function openAssetValueModal() {
+  getRecordsCached().then(function(all) {
+    var mkt = investMarket(all);
+    _assetModalCost = mkt.cost;
+    document.getElementById('assetValueCost').textContent = mkt.cost.toFixed(2);
+    var last = latestAssetSnapshot();
+    document.getElementById('assetValueLast').textContent = last ? (last.date + ' ￥' + last.value.toFixed(2)) : '未填';
+    var inp = document.getElementById('assetValueInput');
+    inp.value = last ? last.value : '';
+    var pv = document.getElementById('assetValuePreview');
+    pv.textContent = mkt.has
+      ? ('按当前成本，现在是' + (mkt.pnl >= 0 ? '浮盈 +' : '浮亏 ') + mkt.pnl.toFixed(2) + ' (' + mkt.rate.toFixed(2) + '%)')
+      : '输入后自动算浮盈/浮亏';
+    document.getElementById('assetValueModal').style.display = 'flex';
+    setTimeout(function() { try { inp.focus(); inp.select(); } catch (e) {} }, 60);
+  });
+}
+
+function closeAssetValueModal() {
+  document.getElementById('assetValueModal').style.display = 'none';
+}
+
+function previewAssetValue() {
+  var v = parseFloat(document.getElementById('assetValueInput').value);
+  var el = document.getElementById('assetValuePreview');
+  if (!el) return;
+  if (isNaN(v) || v < 0) { el.textContent = '输入后自动算浮盈/浮亏'; return; }
+  var cost = _assetModalCost || 0;
+  if (cost <= 0.005) {
+    el.textContent = '当前没有理财本金（成本 0.00），按规则浮盈亏记 0.00 (0.00%)';
+    return;
+  }
+  var pnl = v - cost, rate = pnl / cost * 100;
+  el.innerHTML = '成本 ' + cost.toFixed(2) + ' → 市值 ' + v.toFixed(2) + '，' +
+    '<b style="color:' + (pnl >= 0 ? 'var(--red)' : 'var(--green)') + ';">' +
+    (pnl >= 0 ? '浮盈 +' : '浮亏 ') + pnl.toFixed(2) + ' (' + rate.toFixed(2) + '%)</b>';
+}
+
+function saveAssetValue() {
+  var v = parseFloat(document.getElementById('assetValueInput').value);
+  if (isNaN(v) || v < 0) { showToast('先填个有效的市值喵', true); return; }
+  var d = todayStr();
+  ASSET_SNAPSHOTS = ASSET_SNAPSHOTS.filter(function(x) { return x.date !== d; });
+  ASSET_SNAPSHOTS.push({ date: d, value: v });
+  saveSettings();
+  closeAssetValueModal();
+  renderDashboard();
+  renderSnapshotRows();
+  showToast('市值已更新喵');
+}
+
+function clearAssetValue() {
+  if (!ASSET_SNAPSHOTS.length) { showToast('还没有市值记录喵', true); return; }
+  if (!confirm('清除全部市值快照？清完后总资产按成本显示，浮盈亏与收益率都回到 0.00')) return;
+  ASSET_SNAPSHOTS = [];
+  saveSettings();
+  closeAssetValueModal();
+  renderDashboard();
+  renderSnapshotRows();
+  showToast('市值已清除喵');
+}
+
+function toggleStatsIncludeInvest(v) {
+  STATS_INCLUDE_INVEST = !!v;
+  applyStatsToggleStyle();
+  saveSettings();
+  var mode = getActiveStatsMode();
+  try {
+    if (mode === 'yearly') renderYearlyStats();
+    else if (mode === 'custom') renderCustomStats();
+    else renderStats();
+    renderStatsTable(mode);
+  } catch (e) {}
+  showToast(STATS_INCLUDE_INVEST ? '统计已包含理财存入喵' : '统计不再包含理财存入喵');
+}
+
 async function renderList() {
   if (!_listKeepLimit) { _listShown.expense = LIST_PAGE; _listShown.income = LIST_PAGE; }
   _listKeepLimit = false;
@@ -6401,11 +6642,17 @@ async function renderList() {
   if (excludeCats.size) all = all.filter(r => !excludeCats.has(String(r.category || '').trim()));
   if (excludeSubs.size) all = all.filter(r => !excludeSubs.has(String(r.sub || '').trim()));
   if (onlyNoSub) all = all.filter(r => !String(r.sub || '').trim());
+  // 账单页「只看存款 / 只看总资产」（2026-10-28）
+  if (_assetScope === 'deposit') {
+    all = all.filter(function(r) { var _r0 = roleOf(r.category); return _r0 === 'saveIn' || _r0 === 'saveOut'; });
+  } else if (_assetScope === 'asset') {
+    all = all.filter(function(r) { return isInvestRole(r.category); });
+  }
   if (!isNaN(minAmt)) all = all.filter(r => r.amount >= minAmt);
   if (!isNaN(maxAmt)) all = all.filter(r => r.amount <= maxAmt);
   // ⚠ 2026-10-18：日期框默认有值（本月初~今天）只为了好看，
   //   不能直接参与筛选，否则会把历史记录全筛掉（默认是看所有月份）。
-  //   只有你主动选过日期（_filterDateActive）才生效。
+  //   只有主人主动选过日期（_filterDateActive）才生效。
   if (_filterDateActive) {
     if (dateFrom) all = all.filter(r => r.date && r.date >= dateFrom);
     if (dateTo) all = all.filter(r => r.date && r.date <= dateTo);
@@ -6604,7 +6851,7 @@ async function renderDashboard() {
   var prevExp = calcNetExpense(all.filter(function(r) { return r.date && r.date.startsWith(String(py)); }));
   var curInc = calcIncome(all.filter(function(r) { return r.date && r.date.startsWith(String(cy)); }));
   var curExp = calcNetExpense(all.filter(function(r) { return r.date && r.date.startsWith(String(cy)); }));
-  // 去年/今年的收入支出卡片已移除（2026-10-01 你要求）；数据仍算出来给「📋 复制数据」和年度图表用
+  // 去年/今年的收入支出卡片已移除（2026-10-01 主人要求）；数据仍算出来给「📋 复制数据」和年度图表用
   _yearDelta = { py: py, cy: cy, prevInc: prevInc, prevExp: prevExp, curInc: curInc, curExp: curExp };
   
   document.getElementById('dashTotalIncome').textContent = allIncome.toFixed(2) + '';
@@ -6614,11 +6861,24 @@ async function renderDashboard() {
   document.getElementById('dashBalance').textContent = bal.toFixed(2) + '';
   document.getElementById('dashBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('dashBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
-  document.getElementById('dashAsset').textContent = allInvest.toFixed(2) + '';
+  var mkt = investMarket(all);
+  document.getElementById('dashAsset').textContent = mkt.value.toFixed(2) + '';
+  var assetSubEl = document.getElementById('dashAssetSub');
+  if (assetSubEl) {
+    if (!mkt.has) {
+      assetSubEl.innerHTML = '成本 ' + mkt.cost.toFixed(2) + ' · 浮盈亏 0.00 (0.00%)' +
+        (mkt.stale ? ' · <span style="color:#f59e0b;">市值已过期</span>' : '');
+    } else {
+      var _pc = mkt.pnl >= 0 ? 'var(--red)' : 'var(--green)';
+      assetSubEl.innerHTML = '成本 ' + mkt.cost.toFixed(2) + ' · <b style="color:' + _pc + ';">' +
+        (mkt.pnl >= 0 ? '浮盈 +' : '浮亏 ') + mkt.pnl.toFixed(2) + ' (' + mkt.rate.toFixed(2) + '%)</b>';
+    }
+    assetSubEl.style.color = 'var(--text-secondary)';
+  }
   var allDeposit = calcDeposit(all);
   document.getElementById('dashDeposit').textContent = allDeposit.toFixed(2) + '';
   // 可用余额 = 结余 - 理财资产 - 存款（手头真正可花的钱）
-  var avail = bal - allInvest - allDeposit;
+  var avail = bal - mkt.value - allDeposit;
   var availEl = document.getElementById('dashAvailable');
   if (availEl) {
     availEl.textContent = avail.toFixed(2) + '';
@@ -6976,7 +7236,7 @@ function renderDashAnalysis() {
       }
       var bRemain = budgetAmt - bUsed;
       // 本月「待扣」固定支出：还没到日期的分期/房租等，先在进度条上灰段占位，
-      // 让「可用」从月初就贴近真实可支配额，避免到日子数字猛掉（2026-10-16 你要求）。
+      // 让「可用」从月初就贴近真实可支配额，避免到日子数字猛掉（2026-10-16 主人要求）。
       var pend = pendingRecurringOf(ym, all);
       var bPend = pend.total;
       var bAvail = bRemain - bPend;
@@ -7001,8 +7261,8 @@ function renderDashAnalysis() {
       else bMsg = '✅ 支出在预算范围内，继续保持喵～';
       // 待扣文字段（只在有待扣时出现）
       // 每个「标签 + 数值」（连同括号注记）包一层 .bh-u，整组不允许断开，
-      // 否则预算变 5 位/6 位时会把「预算 12345.67」拆到两行，或只掉下零碎的一两个字（你指出的难看处）。
-      var pendNoteColor = '#334155';  // 原 #64748b 太浅（2026-10-17 你要求加深）
+      // 否则预算变 5 位/6 位时会把「预算 12345.67」拆到两行，或只掉下零碎的一两个字（主人指出的难看处）。
+      var pendNoteColor = '#334155';  // 原 #64748b 太浅（2026-10-17 主人要求加深）
       // 状态提示单独一组，与前面金额文字之间保 8px（原来靠行内 margin-left，改成 flex 组后要用 margin）
       // 状态提示用 .bh-status（独占一行、无左外边距）——原来靠行内 margin-left:8px，
       // 一旦它换到第二行就会比其他行多缩进 8px，左边界不齐。
@@ -7014,7 +7274,7 @@ function renderDashAnalysis() {
         : '';
       // 进度条按「蓝段叠灰段」实现（见下），不要改成 flex 两段拼接
       // 进度条：蓝段叠在灰段上面（绝对定位），这样**两段各自都是完整胶囊**，
-      // 蓝段右端也是圆角 —— 不再为了接缝把蓝段右侧切平（2026-10-17 你说「蓝色右边是直角，有点割裂」）。
+      // 蓝段右端也是圆角 —— 不再为了接缝把蓝段右侧切平（2026-10-17 主人说「蓝色右边是直角，有点割裂」）。
       // 灰段长度 = 已用 + 待扣（它同时充当整个已用区的底），蓝段只盖到已用部分，
       // 所以蓝段盖不住的地方自然露出灰段 = 待扣占位。
       var usedPct = bDenom > 0 ? Math.min(bCapped, 100) : 0;
@@ -7048,7 +7308,7 @@ function renderDashAnalysis() {
     el.innerHTML = '<div style="display:flex;flex-direction:column;gap:14px;font-size:13px;">' +
       '<div>' +
         '<div style="font-size:12px;font-weight:600;color:var(--indigo);margin-bottom:4px;">📅 本月</div>' +
-        // 顺序：预算行在上，分类 TOP3 在下（2026-10-01 你要求）
+        // 顺序：预算行在上，分类 TOP3 在下（2026-10-01 主人要求）
         budgetHtml +
         '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;">' + topHtml + '</div>' +
       '</div>' +
@@ -7263,7 +7523,7 @@ function aggregateStatsPie(recs, recMap) {
   var cats = {};
   recs.forEach(function(r) {
     if (r.type !== 'expense') return;
-    if (isNonConsumeExpense(r.category)) return;
+    if (isNonConsumeExpenseScoped(r.category)) return;
     var k = statsGroupKey(r);
     if (!k) return;
     cats[k] = (cats[k] || 0) + effectiveExpenseOf(r, recMap);
@@ -7357,11 +7617,14 @@ async function renderStats() {
   const expense = calcNetExpense(mr);
   document.getElementById('statsMonthLabel').textContent = statsMonth;
   animateNumber(document.getElementById('statsIncome'), income);
-  animateNumber(document.getElementById('statsExpense'), expense);
+    var _invX = STATS_INCLUDE_INVEST ? statsInvestIn(mr) : 0;
+    renderStatsExpenseSub(expense, _invX);
+    animateNumber(document.getElementById('statsExpense'), expense + _invX);
   const sbal = income - expense;
   document.getElementById('statsBalance').textContent = sbal.toFixed(2) + '';
   document.getElementById('statsBalance').style.color = sbal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = sbal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
+    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   const recMap = buildRecMap(mr);
   const agg = aggregateStatsPie(mr, recMap);
   statsPie = buildStatsPieChart(agg, 600);
@@ -7397,7 +7660,7 @@ function renderStatsSummary(mr, ym) {
   // 支出分类TOP3（只统计可见分类，按关联扣减后金额）
   const recMap = buildRecMap(curRecs);
   const cats = {};
-  curRecs.filter(r => r.type === 'expense' && !isNonConsumeExpense(r.category) && !statsCatHidden(statsGroupKey(r))).forEach(r => { var _k = statsGroupKey(r); cats[_k] = (cats[_k]||0) + effectiveExpenseOf(r, recMap); });
+  curRecs.filter(r => r.type === 'expense' && !isNonConsumeExpenseScoped(r.category) && !statsCatHidden(statsGroupKey(r))).forEach(r => { var _k = statsGroupKey(r); cats[_k] = (cats[_k]||0) + effectiveExpenseOf(r, recMap); });
   const top3 = Object.entries(cats).sort(function(a,b) { return b[1]-a[1]; }).slice(0, 3);
   
   // 日均支出（按该月已过天数；当前月=今天几号，过去月=整月）
@@ -7475,8 +7738,11 @@ function refreshStatsCardsAfterToggle() {
   }
   // 可见分类过滤后的支出（按关联扣减）
   var visibleExp = recs.filter(function(r) {
-    return r.type === 'expense' && !isNonConsumeExpense(r.category) && !statsCatHidden(statsGroupKey(r));
+    return r.type === 'expense' && !isNonConsumeExpenseScoped(r.category) && !statsCatHidden(statsGroupKey(r));
   }).reduce(function(s,r) { return s + effectiveExpenseOf(r, buildRecMap(recs)); }, 0);
+  var _invV = STATS_INCLUDE_INVEST ? statsInvestIn(recs) : 0;
+  renderStatsExpenseSub(visibleExp, _invV);
+  visibleExp += _invV;
   var income = calcIncome(recs);
   var bal = income - visibleExp;
   document.getElementById('statsExpense').textContent = visibleExp.toFixed(2);
@@ -8417,7 +8683,7 @@ function pendingRecurringOf(month, all) {
   var mNum = parseInt(String(month).split('-')[1], 10);
   list.forEach(function(it) {
     if (it.enabled === false) return;          // 已暂停
-    if (it.budget === false) return;           // 你关了「占用预算」
+    if (it.budget === false) return;           // 主人关了「占用预算」
     if ((it.type || 'expense') !== 'expense') return; // 只有支出占预算
     if (!rcActiveInMonth(it, month)) return;
     var dates = [];
@@ -8498,7 +8764,7 @@ function pickRcType(val) {
 function pickRcFreq(val) {
   var el = document.getElementById('rcFreq');
   if (!el) return;
-  // 分期只能是每月：选了每年就自动退回每月，但保留分期模式（不然你啥都没了）
+  // 分期只能是每月：选了每年就自动退回每月，但保留分期模式（不然主人啥都没了）
   el.value = (val === 'yearly' && _rcInstOn) ? 'monthly' : val;
   syncRcSegs();
   onRcFreqChange();
@@ -8506,7 +8772,7 @@ function pickRcFreq(val) {
 }
 
 // ── 分期付款：填「合计 + 期数」自动算每期金额 ──
-// 世界规则：买东西 3000 分 12 期，你只想填 3000 和 12。
+// 世界规则：买东西 3000 分 12 期，主人只想填 3000 和 12。
 // 实现：不新建一套设施，就在固定账单上换种输入方式 —— 每期金额存进 amount（原有字段不动），
 // 结束日期自动算到第 N 期那天，避免多扣/少扣；下游（自动入账/待扣/预算）零改动。
 function pickRcInst(on) {
@@ -8938,7 +9204,7 @@ function syncRcSubRow() {
   var cat = sel ? sel.value : '';
   var subs = getSubCats(cat);
   if (NO_SUB_CATS.indexOf(cat) >= 0 || !subs.length) {
-    // 没有二级时不能 display:none —— 那会让整张卡片变矮、切分类时跳动（你 2026-10-24 报）。
+    // 没有二级时不能 display:none —— 那会让整张卡片变矮、切分类时跳动（主人 2026-10-24 报）。
     // 保留这一行的高度，只是内容看不见。
     wrap.style.display = '';
     wrap.style.visibility = 'hidden';
@@ -9146,7 +9412,7 @@ async function restoreBackup(name) {
   }
 }
 
-// ── 导出备份包 / 从文件恢复（2026-10-18 你要求：U 盘里的备份也要能用）──
+// ── 导出备份包 / 从文件恢复（2026-10-18 主人要求：U 盘里的备份也要能用）──
 function downloadBackupPkg() {
   var a = document.createElement('a');
   a.href = '/api/backup/export?t=' + Date.now();
@@ -9562,7 +9828,7 @@ function aggregateStatsCats(recs, fullMap) {
   var agg = { total: 0, cats: {} };
   recs.forEach(function(r) {
     if (!r.date || r.type !== 'expense') return;
-    if (isNonConsumeExpense(r.category)) return;
+    if (isNonConsumeExpenseScoped(r.category)) return;
     var amt = effectiveExpenseOf(r, fullMap);
     if (amt <= 0) return;
     var k = statsGroupKey(r);
@@ -9665,7 +9931,7 @@ function buildStatsExportText() {
   var fullMap = buildRecMap(all);
   var lines = [];
   lines.push('小爱记账 · 支出分类汇总');
-  lines.push('（口径：净支出，已扣除关联退款，不含理财/存款类）');
+  lines.push('（口径：净支出，已扣除关联退款，' + (STATS_INCLUDE_INVEST ? '含' : '不含') + '理财/存款类）');
   lines.push('');
 
   var mode = getActiveStatsMode();
@@ -9742,7 +10008,8 @@ function refreshStatsExportText() {
   if (hint) {
     hint.textContent = isCompare
       ? '各月份/年份/日期的收入、支出、结余对比（与统计页底部表格口径一致，支出按当前隐藏分类过滤）。'
-      : '按年/月分组的各分类支出汇总，统计口径与页面一致（净支出，已扣关联退款，不含理财/存款类）。';
+      : ('按年/月分组的各分类支出汇总，统计口径与页面一致（净支出，已扣关联退款，' +
+        (STATS_INCLUDE_INVEST ? '含' : '不含') + '理财/存款类；可在饼图右上「含理财存入」切换）。');
   }
 }
 
@@ -10172,7 +10439,7 @@ function jumpDocAnchor(hash) {
   return false;
 }
 
-// ── 回收站（2026-10-17：数据一直有 trash.json，但界面没入口，你找不到）──
+// ── 回收站（2026-10-17：数据一直有 trash.json，但界面没入口，主人找不到）──
 var _trashCache = [];
 var TRASH_KEEP_DAYS = 30;   // 回收站保留天数，0 = 永久保留（后端 settings.trashDays）
 
@@ -10188,7 +10455,7 @@ async function loadTrash(force) {
   return _trashCache;
 }
 
-// 更新按钮上的条数角标（列表页显示，让你知道回收站里有东西）
+// 更新按钮上的条数角标（列表页显示，让主人知道回收站里有东西）
 async function refreshTrashBadge() {
   try {
     var list = await loadTrash(true);
@@ -10384,9 +10651,9 @@ async function emptyTrash() {
   }
 }
 
-// ── 一键导出「记账项目」（2026-10-17 你要求）──
+// ── 一键导出「记账项目」（2026-10-17 主人要求）──
 // 只导出一级/二级分类清单，不带预算、固定账单、记录、其他设置，就是干净的清单。
-// 用当前配置（你改过分类也跟着出），不是写死的默认表。
+// 用当前配置（主人改过分类也跟着出），不是写死的默认表。
 function buildCatItemsPayload() {
   function pack(cats) {
     return (cats || []).map(function(c) {
@@ -10405,9 +10672,9 @@ function buildCatItemsPayload() {
   };
 }
 
-// 一键导出「完整项目包」：干净空白账本，可直接分享给别人（2026-10-17 你要求）
+// 一键导出「完整项目包」：干净空白账本，可直接分享给别人（2026-10-17 主人要求）
 // 打包内容 = 程序本体（exe / html / chart.js / icon）+ 空 data + 使用说明 + 启动.bat
-// 绝不包含你真实的记录、预算、固定账单、自定义分类。
+// 绝不包含主人真实的记录、预算、固定账单、自定义分类。
 // \u2500\u2500 \u4e00\u952e\u5347\u7ea7\uff082026-10-18\uff09\u2500\u2500
 // \u6570\u636e\u5728 data\\\uff0c\u7a0b\u5e8f\u5728\u6839\u76ee\u5f55\uff1b\u5347\u7ea7 = \u53ea\u6362\u7a0b\u5e8f\u6587\u4ef6\uff0c\u8d26\u672c\u4e00\u5b57\u4e0d\u52a8
 var _appVersionCache = null;
@@ -10562,7 +10829,7 @@ function showUpgradeResult(r) {
        + '</div>';
   }
   h += listBlock('\u6ca1\u66f4\u65b0\u6210', r.skipped, '#dc2626', '\u26a0\ufe0f');
-  // 2026-10-18 你要求：升级前自动导出的是「数据备份包」，
+  // 2026-10-18 主人要求：升级前自动导出的是「数据备份包」，
   //   跟设置页「导出备份包」同一个格式，可以直接用「从文件恢复」选回来。
   if (r.ledgerBackup) {
     var _lb = String(r.ledgerBackup);
@@ -10600,7 +10867,7 @@ function closeUpgradeModal() {
 }
 
 async function restartAfterUpgrade() {
-  // 2026-10-18（你要求）：「只留一个弹窗，弹一个等待 3 秒的」。
+  // 2026-10-18（主人要求）：「只留一个弹窗，弹一个等待 3 秒的」。
   //   以前这里换了三次版式 —— 大数字倒计时 → ‘正在换上新版本’ → 转圈等待，
   //   每换一次都是一次 innerHTML 重建，看起来就像弹了两个框。
   //   现在：**一进函数就把版式定死**，后面只改 #upgradeWaitMsg 这一行文字，
@@ -10690,7 +10957,7 @@ function exportProjectZip() {
     a.href = '/api/export_project';
     var d = new Date();
     function p(n) { return String(n).padStart(2, '0'); }
-    // 文件名带版本号（2026-10-18 你要求）；版本还没加载到就退回日期，别出空名字
+    // 文件名带版本号（2026-10-18 主人要求）；版本还没加载到就退回日期，别出空名字
     var _vv = (_appVersionCache && (_appVersionCache.runningVersion || _appVersionCache.appVersion)) || '';
     a.download = _vv
       ? ('小爱记账_空白账本_v' + _vv + '.zip')
@@ -11183,6 +11450,69 @@ function calcExpense(recs) {
   // 未被关联的孤儿退款：不再自动扣减全月支出，只作为收入展示
   return calcNetExpense(recs, buildRecMap(recs));
 }
+// ── 理财盈亏（2026-10-28）──────────────────────────────────────────
+//   成本   = 理财存入 − 理财取出（不含盈亏，纯本金）
+//   市值   = 最近一次「更新市值」填进来的数字
+//   浮盈亏 = 市值 − 成本；收益率 = 浮盈亏 ÷ 成本
+//   规则：① 成本 ≤ 0 时不看快照，盈亏/收益率一律 0
+//         ② 只认「当前成本周期开始之后」的快照 —— 全部取出后重新投入，
+//            旧市值自动失效，要重新更新一次（不然拿旧市值比新本金，数字没意义）
+function investCost(recs) {
+  // 按「分」累加：几十笔金额用浮点直接加会出现 1234.56 → 1234.53 的偏差
+  var inC = 0, outC = 0;
+  (recs || []).forEach(function(r) {
+    var role = roleOf(r.category);
+    var c = Math.round((Number(r.amount) || 0) * 100);
+    if (role === 'investIn') inC += c;
+    else if (role === 'investWithdraw') outC += c;
+  });
+  return (inC - outC) / 100;
+}
+
+function investCostCycleStart(recs) {
+  var arr = (recs || []).slice().sort(function(a, b) {
+    var x = String((a && a.date) || ''), y = String((b && b.date) || '');
+    return x < y ? -1 : (x > y ? 1 : 0);
+  });
+  var cost = 0, start = '';
+  arr.forEach(function(r) {
+    var role = roleOf(r.category), amt = Number(r.amount) || 0;
+    if (role !== 'investIn' && role !== 'investWithdraw') return;
+    var before = cost;
+    cost += (role === 'investIn' ? amt : -amt);
+    if (before <= 0.005 && cost > 0.005) start = String(r.date || '');
+  });
+  return start;
+}
+
+function latestAssetSnapshot() {
+  if (!ASSET_SNAPSHOTS.length) return null;
+  var arr = ASSET_SNAPSHOTS.slice().sort(function(a, b) {
+    return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
+  });
+  return arr[arr.length - 1];
+}
+
+function investMarket(recs) {
+  var cost = investCost(recs);
+  var snap = null, value = cost, pnl = 0, rate = 0, has = false, stale = false;
+  if (cost > 0.005) {
+    var s = latestAssetSnapshot();
+    var start = investCostCycleStart(recs);
+    if (s) {
+      if (start && s.date < start) {
+        stale = true;   // 快照早于本轮成本周期 → 视为过期，不参与计算
+      } else {
+        snap = s; value = s.value;
+        pnl = Math.round((value - cost) * 100) / 100;
+        rate = cost > 0 ? (pnl / cost * 100) : 0; has = true;
+      }
+    }
+  }
+  if (!has) { value = cost; pnl = 0; rate = 0; }
+  return { cost: cost, value: value, snap: snap, pnl: pnl, rate: rate, has: has, stale: stale };
+}
+
 function calcInvest(recs) {
   // 总资产 = 理财存入 + 理财收入 - 理财取出 - 理财亏损
   // 兼容旧数据：理财基金(旧支出类)算作存入，理财(旧收入类)算作理财收入
@@ -11715,11 +12045,11 @@ function renderYearSummary(recs, year, income, expense, bal) {
   // 支出分类TOP3（只统计可见分类，按关联扣减后金额）
   const recMap = buildRecMap(recs);
   const cats = {};
-  recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpense(r.category) && !statsCatHidden(statsGroupKey(r)); }).forEach(function(r) { var _k = statsGroupKey(r); cats[_k] = (cats[_k]||0) + effectiveExpenseOf(r, recMap); });
+  recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpenseScoped(r.category) && !statsCatHidden(statsGroupKey(r)); }).forEach(function(r) { var _k = statsGroupKey(r); cats[_k] = (cats[_k]||0) + effectiveExpenseOf(r, recMap); });
   const top3 = Object.entries(cats).sort(function(a,b) { return b[1]-a[1]; }).slice(0, 3);
 
   // 日均支出（按有记录的天数算更合理；无记录天数则按365天）
-  const activeDays = new Set(recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpense(r.category) && !statsCatHidden(statsGroupKey(r)); }).map(function(r) { return r.date; })).size;
+  const activeDays = new Set(recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpenseScoped(r.category) && !statsCatHidden(statsGroupKey(r)); }).map(function(r) { return r.date; })).size;
   const daysBase = activeDays > 0 ? activeDays : 365;
   const dailyAvg = expense / daysBase;
 
@@ -11766,15 +12096,18 @@ function renderYearlyStats() {
   document.getElementById('statsCardsLabelExp').textContent = String(statsYear) + '年支出';
   document.getElementById('statsCardsLabelBal').textContent = String(statsYear) + '年结余';
   animateNumber(document.getElementById('statsIncome'), income);
-  animateNumber(document.getElementById('statsExpense'), expense);
+    var _invX = STATS_INCLUDE_INVEST ? statsInvestIn(recs) : 0;
+    renderStatsExpenseSub(expense, _invX);
+    animateNumber(document.getElementById('statsExpense'), expense + _invX);
   document.getElementById('statsBalance').textContent = bal.toFixed(2);
   document.getElementById('statsBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
+    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   
   // 年度饼图（先清空 canvas 确保动画生效）
   const recMap = buildRecMap(recs);
   var cats = {};
-  recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpense(r.category); }).forEach(function(r) { cats[r.category] = (cats[r.category]||0) + effectiveExpenseOf(r, recMap); });
+  recs.filter(function(r) { return r.type === 'expense' && !isNonConsumeExpenseScoped(r.category); }).forEach(function(r) { cats[r.category] = (cats[r.category]||0) + effectiveExpenseOf(r, recMap); });
   var keys = Object.keys(cats);
   var agg = aggregateStatsPie(recs, recMap);
   statsYearPie = buildStatsPieChart(agg, 700);
@@ -11877,10 +12210,13 @@ function renderCustomStats() {
   document.getElementById('statsCardsLabelExp').textContent = '区间支出';
   document.getElementById('statsCardsLabelBal').textContent = '区间结余';
   animateNumber(document.getElementById('statsIncome'), income);
-  animateNumber(document.getElementById('statsExpense'), expense);
+    var _invX = STATS_INCLUDE_INVEST ? statsInvestIn(recs) : 0;
+    renderStatsExpenseSub(expense, _invX);
+    animateNumber(document.getElementById('statsExpense'), expense + _invX);
   document.getElementById('statsBalance').textContent = bal.toFixed(2);
   document.getElementById('statsBalance').style.color = bal >= 0 ? 'var(--red)' : 'var(--green)';
   document.getElementById('statsBalance').closest('.summary-card').style.background = bal >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)';
+    if (STATS_INCLUDE_INVEST) { var _balX = income - expense - _invX; var _bel = document.getElementById('statsBalance'); _bel.textContent = _balX.toFixed(2); _bel.style.color = _balX >= 0 ? 'var(--red)' : 'var(--green)'; _bel.closest('.summary-card').style.background = _balX >= 0 ? 'linear-gradient(135deg,rgba(239,68,68,0.10),#ffffff)' : 'linear-gradient(135deg,rgba(34,197,94,0.10),#ffffff)'; }
   document.getElementById('statsCustomLabel').textContent = from + ' ~ ' + to;
 
   const recMap = buildRecMap(recs);
