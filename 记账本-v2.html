@@ -4654,7 +4654,7 @@ async function loadSettings() {
   BUDGET_INCL_INVEST_LOSS = !!(s && s.budgetInclInvestLoss === true); // 默认不计入理财亏损
     ASSET_SNAPSHOTS = (s && Object.prototype.toString.call(s.assetSnapshots) === '[object Array]')
       ? s.assetSnapshots.filter(function(x) { return x && x.date && isFinite(parseFloat(x.value)); })
-          .map(function(x) { return { date: String(x.date), value: parseFloat(x.value) }; })
+          .map(function(x) { return { date: String(x.date), value: parseFloat(x.value), at: x.at ? Number(x.at) : 0 }; })
       : [];
     STATS_INCLUDE_INVEST = !!(s && s.statsIncludeInvest === true);
     var _siEl = document.getElementById('statsIncludeInvest');
@@ -6586,7 +6586,7 @@ function saveAssetValue() {
   if (isNaN(v) || v < 0) { showToast('先填个有效的市值喵', true); return; }
   var d = todayStr();
   ASSET_SNAPSHOTS = ASSET_SNAPSHOTS.filter(function(x) { return x.date !== d; });
-  ASSET_SNAPSHOTS.push({ date: d, value: v });
+  ASSET_SNAPSHOTS.push({ date: d, value: v, at: Date.now() });
   saveSettings();
   closeAssetValueModal();
   renderDashboard();
@@ -6878,7 +6878,10 @@ async function renderDashboard() {
   var allDeposit = calcDeposit(all);
   document.getElementById('dashDeposit').textContent = allDeposit.toFixed(2) + '';
   // 可用余额 = 结余 - 理财资产 - 存款（手头真正可花的钱）
-  var avail = bal - mkt.value - allDeposit;
+  // 2026-10-29 修正：可用余额必须按「理财账面价值」扣，不能按市值扣 ——
+  //   市值是账户现值，新存入 300 时市值不会自动 +300，导致可用余额不扣钱。
+  //   账面值 allInvest = 本金 + 已实现收益 − 亏损，与结余口径自洽（收益已计入结余、亏损已计入支出）。
+  var avail = bal - allInvest - allDeposit;
   var availEl = document.getElementById('dashAvailable');
   if (availEl) {
     availEl.textContent = avail.toFixed(2) + '';
@@ -11483,6 +11486,28 @@ function investCostCycleStart(recs) {
   return start;
 }
 
+// 快照之后又存进去/取出来的钱：市值要跟着走，否则浮盈会被新存入冲掉
+function investFlowSince(recs, snap) {
+  if (!snap) return 0;
+  var sinceAt = snap.at ? Number(snap.at) : 0;
+  var sinceDate = String(snap.date || '');
+  var cents = 0;
+  (recs || []).forEach(function(r) {
+    var role = roleOf(r.category);
+    if (role !== 'investIn' && role !== 'investWithdraw') return;
+    var after = false;
+    if (sinceAt) {
+      var t = Number(r.createdAt || 0);
+      after = t ? (t > sinceAt) : (String(r.date || '') > sinceDate);
+    } else {
+      after = String(r.date || '') > sinceDate;
+    }
+    if (!after) return;
+    cents += Math.round((Number(r.amount) || 0) * 100) * (role === 'investIn' ? 1 : -1);
+  });
+  return cents / 100;
+}
+
 function latestAssetSnapshot() {
   if (!ASSET_SNAPSHOTS.length) return null;
   var arr = ASSET_SNAPSHOTS.slice().sort(function(a, b) {
@@ -11501,7 +11526,8 @@ function investMarket(recs) {
       if (start && s.date < start) {
         stale = true;   // 快照早于本轮成本周期 → 视为过期，不参与计算
       } else {
-        snap = s; value = s.value;
+        snap = s;
+        value = Math.round((s.value + investFlowSince(recs, s)) * 100) / 100;
         pnl = Math.round((value - cost) * 100) / 100;
         rate = cost > 0 ? (pnl / cost * 100) : 0; has = true;
       }
