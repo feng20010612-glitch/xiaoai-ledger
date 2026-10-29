@@ -28,7 +28,7 @@ BUDGET_FILE = os.path.join(DATA_DIR, 'budget.json')
 RECURRING_FILE = os.path.join(DATA_DIR, 'recurring.json')
 BACKUP_DIR = os.path.join(EXE_DIR, 'data_backup')
 VERSION_FILE = os.path.join(DATA_DIR, 'version.json')
-APP_VERSION = '2.15.27'
+APP_VERSION = '2.15.28'
 
 # 升级时只替换「程序文件」，绝不碰 data\（账本、预算、设置全保留）
 UPGRADE_PROGRAM_FILES = [
@@ -2278,7 +2278,10 @@ def main():
         time.sleep(0.5)
         try: webbrowser.open('http://127.0.0.1:%d/' % PORT)
         except: pass
-    if not _post_upgrade_launch and not os.environ.get('XIAOAI_NO_BROWSER'):
+    # 2026-10-29：除了环境变量，也支持命令行参数 --no-browser
+    #   （插件/脚本拉起服务器时用，浏览器开不开由主人自己决定）
+    _no_browser_flag = any(str(a).lower() in ('--no-browser', '-n', '/nobrowser') for a in sys.argv[1:])
+    if not _post_upgrade_launch and not os.environ.get('XIAOAI_NO_BROWSER') and not _no_browser_flag:
         threading.Thread(target=_open_browser, daemon=True).start()
     else:
         print('[browser] 升级后自动重启，不打开浏览器' if _post_upgrade_launch else '[browser] 已禁用')
