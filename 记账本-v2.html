@@ -4235,6 +4235,178 @@ button:focus-visible, .btn:focus-visible, .fc-ctl:focus-visible, .fc-tool:focus-
 .form-row-2 > .form-group:first-child > label { margin: 0 0 4px !important; }
 .form-row-2 > .form-group:first-child input { margin: 0 !important; }
 
+/* 顶部退出按钮中性化（2026-11-05） */
+#exitBtn {
+  background: #ffffff !important; border: 1px solid #e6ebf2 !important;
+  color: #94a3b8 !important; box-shadow: 0 1px 3px rgba(15,23,42,.06) !important;
+  transition: color .15s, background .15s, border-color .15s;
+}
+#exitBtn:hover { color: #ef4444 !important; border-color: #fecaca !important; background: #fef2f2 !important; }
+
+/* 设置页卡片副标题（2026-11-05） */
+#tab-settings .set-sub {
+  font-size: 11.5px; color: #94a3b8; line-height: 1.5;
+  margin: -2px 0 0; padding-right: 22px;
+}
+
+/* ── 语义色 + 日历区分 + 弹窗动画（2026-11-05 第五轮）── */
+#tab-dashboard .summary-top .summary-card {
+  background: #ffffff !important; border: 1px solid #e8ecf3 !important;
+  box-shadow: 0 1px 2px rgba(15,23,42,.04) !important;
+}
+#tab-dashboard .summary-top .income-card { background: linear-gradient(180deg,#fff6f6,#fff) !important; border-color: #fbe0e0 !important; }
+#tab-dashboard .summary-top .expense-card { background: linear-gradient(180deg,#f3fbf6,#fff) !important; border-color: #d9f0e2 !important; }
+#tab-dashboard .summary-top .balance-card { background: linear-gradient(180deg,#f6f8fc,#fff) !important; border-color: #e3e9f3 !important; }
+#tab-dashboard .summary-top .balance-card .val { color: #334155 !important; }
+#tab-dashboard .summary-top .deposit-card .val { color: #475569 !important; }
+#tab-dashboard .summary-top .asset-card .val { color: #475569 !important; }
+#tab-dashboard .summary-top .avail-card { background: linear-gradient(180deg,#f8f7ff,#fff) !important; border-color: #e6e3fb !important; }
+#tab-dashboard .summary-top .avail-card .val { color: #5b57d1 !important; }
+
+#tab-stats .day-g.has-data {
+  background: rgba(99,102,241,.09) !important;
+  border-color: rgba(99,102,241,.18) !important;
+}
+#tab-stats .day-g.has-data .day { color: #3730a3 !important; font-weight: 600; }
+#tab-stats .day-g.today { box-shadow: inset 0 0 0 1.5px #6366f1 !important; }
+#tab-stats .day-g.today .day { color: #4f46e5 !important; font-weight: 700; }
+
+@keyframes ocPopIn { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+.cat-modal { animation: ocFadeIn .24s ease-out !important; }
+.cat-modal .cat-modal-inner { animation: ocPopIn .3s cubic-bezier(.16,1,.3,1) !important; will-change: transform, opacity; }
+.cat-modal .cat-modal-inner > * { backface-visibility: hidden; }
+
+/* ── 日历/预算/卡片 二版（2026-11-05）── */
+#tab-stats .day-g.has-data {
+  background: #ffffff !important;
+  border: 1px solid rgba(99,102,241,.34) !important;
+  box-shadow: 0 1px 2px rgba(99,102,241,.07) !important;
+}
+#tab-stats .day-g.has-data .day { color: #4f46e5 !important; font-weight: 600; }
+#tab-stats .day-g.today {
+  background: rgba(99,102,241,.12) !important;
+  border-color: #6366f1 !important;
+  box-shadow: inset 0 0 0 1.5px #6366f1 !important;
+}
+#tab-stats .day-g.today .day { color: #312e81 !important; font-weight: 700; }
+
+.bh-line { display: flex !important; flex-wrap: wrap; align-items: center; gap: 6px 8px; line-height: 1.6 !important; }
+.bh-u { background: #f4f6fb; border-radius: 6px; padding: 1px 8px; font-size: 12.5px; }
+.bh-status { padding: 0 !important; background: transparent !important; }
+
+#tab-dashboard .summary-top .deposit-card { background: #ffffff !important; border-color: #e8ecf3 !important; }
+#tab-dashboard .summary-top .deposit-card .val { color: #475569 !important; }
+#tab-dashboard .summary-top .asset-card { background: #ffffff !important; border-color: #e8ecf3 !important; }
+#tab-dashboard .summary-top .asset-card .val { color: #475569 !important; }
+#tab-dashboard .summary-top .balance-card { background: linear-gradient(180deg,#f6f8fc,#fff) !important; border-color: #e3e9f3 !important; }
+#tab-dashboard .summary-top .balance-card .val { color: #334155 !important; }
+
+/* 预算卡（2026-11-05 第三版） */
+.budget-card {
+  margin: 2px 0 10px; padding: 10px 12px;
+  background: #f8fafd; border: 1px solid #eaeff7; border-radius: 12px;
+}
+.bc-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.bc-title { font-size: 12px; color: #64748b; }
+.bc-amt { font-size: 17px; font-weight: 700; letter-spacing: .2px; font-variant-numeric: tabular-nums; }
+.bc-pct { font-size: 11.5px; color: #94a3b8; font-variant-numeric: tabular-nums; }
+.bc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px; margin-top: 8px; }
+.bc-cell {
+  background: #fff; border: 1px solid #eef2f8; border-radius: 8px;
+  padding: 6px 9px; display: flex; flex-direction: column; gap: 2px;
+}
+.bc-k { font-size: 10.5px; color: #94a3b8; }
+.bc-v { font-size: 13px; font-weight: 600; color: #334155; font-variant-numeric: tabular-nums; }
+.bc-credit { margin-top: 8px; font-size: 11.5px; color: #64748b; }
+.bc-credit b { color: #475569; font-variant-numeric: tabular-nums; }
+.bc-credit a { color: #6366f1; text-decoration: none; margin-left: 6px; }
+.bc-msg { margin-top: 8px; font-size: 11.5px; line-height: 1.5; }
+.budget-card .mh-track { margin: 10px 0 2px !important; }
+
+/* 预算卡第四版：融进本月卡背景 */
+.budget-card { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 0 8px !important; }
+.budget-card .bc-title-row { font-size: 12px; color: #64748b; margin-bottom: 3px; }
+.budget-card .bc-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.budget-card .bc-amt { font-size: 18px; font-weight: 700; letter-spacing: .2px; font-variant-numeric: tabular-nums; }
+.budget-card .bc-pct { font-size: 11.5px; color: #94a3b8; font-variant-numeric: tabular-nums; }
+.budget-card .bc-note { font-size: 11.5px; color: #64748b; }
+.budget-card .bc-msg { margin-top: 2px; font-size: 11.5px; line-height: 1.5; }
+.budget-card .bc-stats {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px;
+  margin-top: 6px; font-size: 12px; color: #64748b;
+}
+.budget-card .bc-s { display: inline-flex; align-items: baseline; gap: 4px; }
+.budget-card .bc-s i { font-style: normal; color: #94a3b8; font-size: 11.5px; }
+.budget-card .bc-s b { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.budget-card .bc-sep { width: 1px; height: 11px; background: #cbd5e1; opacity: .7; }
+.budget-card .bc-credit { margin-top: 6px; font-size: 11.5px; color: #64748b; }
+.budget-card .bc-credit b { color: #475569; font-variant-numeric: tabular-nums; }
+.budget-card .bc-credit a { color: #6366f1; text-decoration: none; margin-left: 6px; }
+.budget-card .mh-track { margin: 8px 0 0 !important; }
+
+/* 预算状态回到进度条右侧（2026-11-05） */
+.budget-card .bc-bar-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.budget-card .bc-bar-row .mh-track { flex: 1 1 180px; margin: 0 !important; }
+.budget-card .bc-status { flex: none; font-size: 11.5px; line-height: 1.4; }
+.budget-card .bc-msg { display: none; }
+
+/* 预算卡文字加深（2026-11-05） */
+.budget-card .bc-title-row { color: #475569 !important; font-weight: 500; }
+.budget-card .bc-pct { color: #64748b !important; font-weight: 500; }
+.budget-card .bc-note { color: #475569 !important; }
+.budget-card .bc-s i { color: #64748b !important; }
+.budget-card .bc-s b { color: #1e293b; }
+.budget-card .bc-credit { color: #475569 !important; }
+
+/* 饼图垂直居中 + 日历有记录换浅绿底（2026-11-05） */
+.month-row > .month-row-pie { justify-content: flex-start; }
+.month-row > .month-row-pie .dash-pie-flex {
+  flex: 1 1 auto; display: flex; align-items: center; justify-content: center;
+  height: auto !important; min-height: 0;
+}
+.month-row > .month-row-pie .dash-pie-flex canvas { max-height: 100%; }
+
+#tab-stats .day-g.has-data {
+  background: #f0fdf4 !important;
+  border: 1px solid #d6f2e2 !important;
+  box-shadow: none !important;
+}
+#tab-stats .day-g.has-data .day { color: #15803d !important; font-weight: 600; }
+#tab-stats .day-g.has-data:hover { background: #e8fbf0 !important; }
+#tab-stats .day-g.today {
+  background: rgba(99,102,241,.12) !important;
+  border-color: #6366f1 !important;
+  box-shadow: inset 0 0 0 1.5px #6366f1 !important;
+}
+#tab-stats .day-g.today .day { color: #312e81 !important; font-weight: 700; }
+
+/* 饼图放大一档（2026-11-05） */
+.month-row > .month-row-pie .dash-pie-flex { min-height: 320px; }
+.month-row > .month-row-pie .dash-pie-flex canvas { max-height: none !important; }
+
+/* 饼图放大：方形画布 + resize 重绘（2026-11-05） */
+.month-row > .month-row-pie .dash-pie-flex canvas {
+  max-height: none !important;
+  transform: scale(1.3);
+  transform-origin: center center;
+}
+.month-row > .month-row-pie .dash-pie-flex { min-height: 340px; }
+
+/* 日历有记录：浅蓝方案 C（2026-11-05） */
+#tab-stats .day-g.has-data {
+  background: #eff6ff !important;
+  border: 1px solid #dbeafe !important;
+  box-shadow: none !important;
+}
+#tab-stats .day-g.has-data .day { color: #1d4ed8 !important; font-weight: 600; }
+#tab-stats .day-g.has-data:hover { background: #e6f0ff !important; border-color: #bfdbfe !important; }
+#tab-stats .day-g.today {
+  background: rgba(99,102,241,.12) !important;
+  border-color: #6366f1 !important;
+  box-shadow: inset 0 0 0 1.5px #6366f1 !important;
+}
+#tab-stats .day-g.today .day { color: #312e81 !important; font-weight: 700; }
+
 </style>
 </head>
 <body>
@@ -4279,10 +4451,10 @@ button:focus-visible, .btn:focus-visible, .fc-ctl:focus-visible, .fc-tool:focus-
   <div class="summary-cards summary-top">
     <div class="summary-card income-card"><div class="label">总收入</div><div class="val income" id="dashTotalIncome">0</div></div>
     <div class="summary-card expense-card"><div class="label">总支出</div><div class="val expense" id="dashTotalExpense">0</div></div>
-    <div class="summary-card balance-card"><div class="label">结余</div><div class="val" id="dashBalance">0</div></div>
-<div class="summary-card" onclick="jumpToBills('deposit')" style="cursor:pointer;"><div class="label">💰 存款<span style="font-size:10px;color:#999;margin-left:4px;">📋 明细</span></div><div class="val" id="dashDeposit" style="color:#fb923c;">0</div></div>
+    <div class="summary-card balance-card"><div class="label">总结余</div><div class="val" id="dashBalance">0</div></div>
+<div class="summary-card deposit-card" onclick="jumpToBills('deposit')" style="cursor:pointer;"><div class="label">💰 存款<span style="font-size:10px;color:#999;margin-left:4px;">📋 明细</span></div><div class="val" id="dashDeposit" style="color:#fb923c;">0</div></div>
 <div class="summary-card asset-card" onclick="jumpToBills('asset')" style="cursor:pointer;position:relative;"><div class="label">总资产（理财）<span style="font-size:10px;color:#999;margin-left:4px;">📋 明细</span></div><div class="val asset" id="dashAsset">0</div><div id="dashAssetSub" style="font-size:11px;color:var(--text-secondary);margin-top:2px;line-height:1.4;">成本 0.00 · 浮盈亏 0.00 (0.00%)</div><span onclick="event.stopPropagation();openAssetValueModal()" title="更新市值" style="position:absolute;right:8px;top:8px;font-size:10px;color:#6366f1;background:#eef2ff;border-radius:6px;padding:2px 6px;cursor:pointer;">✏ 市值</span></div>
-    <div class="summary-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.10),#ffffff);"><div class="label">可用余额<span style="font-size:10px;color:#999;margin-left:4px;">💰 手上可花</span></div><div class="val" id="dashAvailable" style="color:#6366f1;">0</div></div>
+    <div class="summary-card avail-card" style="background:linear-gradient(135deg,rgba(99,102,241,0.10),#ffffff);"><div class="label">可用余额<span style="font-size:10px;color:#999;margin-left:4px;">💰 手上可花</span></div><div class="val" id="dashAvailable" style="color:#6366f1;">0</div></div>
   </div>
   
 
@@ -4293,7 +4465,7 @@ button:focus-visible, .btn:focus-visible, .fc-ctl:focus-visible, .fc-tool:focus-
       <div class="mh-left">
         <div class="mh-label"><span class="mh-dot"></span>本月支出</div>
         <div class="mh-val"><span class="mh-cur">¥</span><span id="monthHeroExpense">0.00</span></div>
-        <div class="mh-sub" id="monthHeroTrend">结余 <b id="monthHeroBal">0.00</b></div>
+        <div class="mh-sub" id="monthHeroTrend">本月结余 <b id="monthHeroBal">0.00</b></div>
       </div>
             <div class="mh-mid">
 <div class="mh-compare">
@@ -4804,7 +4976,7 @@ button:focus-visible, .btn:focus-visible, .fc-ctl:focus-visible, .fc-tool:focus-
       </div>
       <div id="statsDays" class="day-grid"></div>
       <div style="margin-top:16px;">
-        <span style="font-size:12px;color:var(--text-muted);">💡 点击柱子或横坐标可隐藏/恢复某天数据</span>
+        <span style="font-size:12.5px;color:#64748b;">💡 点击柱子或横坐标可隐藏/恢复某天数据</span>
       </div>
       <div class="stats-daily-chart">
         <canvas id="statsDaysChart"></canvas>
@@ -5996,6 +6168,56 @@ document.addEventListener('keydown', function (e) {
   try {
     mo.observe(document.body, { childList: true, subtree: true });
   } catch (e) {}
+})();
+
+// ── 设置页卡片副标题（2026-11-05）──
+(function settingsSubtitles() {
+  var MAP = [
+    ['每月预算', '花到 80% 就提醒你，可单独覆盖某月'],
+    ['主题配色', '13 套低饱和配色，选完立即生效'],
+    ['分类管理', '增删改一级、二级分类与图标'],
+    ['数据管理', '导入导出、清空数据、回收站'],
+    ['版本与升级', '检查更新、导入升级包'],
+    ['帮助与文档', '使用手册、快捷键与常见问题'],
+    ['数据备份', '手动备份、导出备份包、从备份恢复']
+  ];
+  function run() {
+    var tab = document.getElementById('tab-settings');
+    if (!tab) return;
+    var heads = tab.querySelectorAll('.set-fold-head');
+    Array.prototype.forEach.call(heads, function (h) {
+      var card = h.parentElement;
+      if (!card || card.querySelector('.set-sub')) return;
+      var title = (h.textContent || '').replace(/\s+/g, '');
+      for (var i = 0; i < MAP.length; i++) {
+        if (title.indexOf(MAP[i][0]) >= 0) {
+          var d = document.createElement('div');
+          d.className = 'set-sub';
+          d.textContent = MAP[i][1];
+          h.insertAdjacentElement('afterend', d);
+          break;
+        }
+      }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(run, 120); });
+  else setTimeout(run, 120);
+  var t = null;
+  new MutationObserver(function () { clearTimeout(t); t = setTimeout(run, 200); })
+    .observe(document.body, { childList: true, subtree: true });
+})();
+
+// ── 饼图尺寸变化后重绘，避免位图被拉伸（2026-11-05）──
+(function pieResizeFix() {
+  function fix() {
+    var cv = document.querySelector('.month-row-pie canvas');
+    if (!cv || !window.Chart) return false;
+    var ch = Chart.getChart(cv);
+    if (ch) { ch.resize(); ch.update('none'); return true; }
+    return false;
+  }
+  [200, 600, 1200].forEach(function (ms) { setTimeout(fix, ms); });
+  window.addEventListener('resize', function () { setTimeout(fix, 120); });
 })();
 
 // ── 主题配色（2026-11-05）──
@@ -8646,9 +8868,9 @@ function renderDashAnalysis() {
       // 一旦它换到第二行就会比其他行多缩进 8px，左边界不齐。
       var bMsgGap = '';
       var pendTxt = bPend > 0
-        ? '，<span class="bh-u">待扣 <b style="color:' + pendNoteColor + ';">' + bPend.toFixed(2) + '</b>' +
+        ? '<span class="bh-u">待扣 <b style="color:' + pendNoteColor + ';">' + bPend.toFixed(2) + '</b>' +
           ' <span style="color:' + pendNoteColor + ';cursor:help;" title="' + escHtml(pendTitle) + '">（' + pend.items.length + ' 笔未到期）</span></span>' +
-          '，<span class="bh-u">可用 <b style="color:' + (bAvail >= 0 ? 'var(--red)' : 'var(--green)') + ';">' + (bAvail >= 0 ? bAvail.toFixed(2) : '-' + Math.abs(bAvail).toFixed(2)) + '</b></span>'
+          '<span class="bh-u">可用 <b style="color:' + (bAvail >= 0 ? 'var(--red)' : 'var(--green)') + ';">' + (bAvail >= 0 ? bAvail.toFixed(2) : '-' + Math.abs(bAvail).toFixed(2)) + '</b></span>'
         : '';
       // 进度条按「蓝段叠灰段」实现（见下），不要改成 flex 两段拼接
       // 进度条：蓝段叠在灰段上面（绝对定位），这样**两段各自都是完整胶囊**，
@@ -8665,31 +8887,29 @@ function renderDashAnalysis() {
         '</div>';
       // 预算行：文字部分用 flex-wrap 按「整组」换行（数字不会被拆开），进度条单独一行
       // 金额位数变多（4 位 → 5/6 位）时只在组与组之间换行，不会只掉下零碎的一两个字。
-      budgetHtml = '<div style="margin-bottom:8px;font-size:13px;">' +
-        '<div class="bh-line">' +
-        '<span class="bh-u">\uD83D\uDCB0 \u9884\u7b97 <b style="color:' + bColor + ';">' + budgetAmt.toFixed(2) + '</b></span>' +
-        '\uff0c<span class="bh-u">\u5df2\u7528 <b style="color:' + bColor + ';">' + bUsed.toFixed(2) + '</b></span>' + pendTxt +
-        '\uff0c<span class="bh-u">\u5269\u4f59 <b style="color:' + (bRemain >= 0 ? 'var(--red)' : 'var(--green)') + ';">' + bRemainTxt + '</b></span>' +
-        '\uff0c<span class="bh-u">\u4f7f\u7528 <b style="color:' + bColor + ';">' + bPct.toFixed(1) + '%</b></span>' +
+      budgetHtml = '<div class="budget-card">' +
+        '<div class="bc-title-row">\uD83D\uDCB0 \u672C\u6708\u9884\u7b97</div>' +
+        '<div class="bc-head">' +
+          '<span class="bc-amt" style="color:' + bColor + ';">' + budgetAmt.toFixed(2) + '</span>' +
+          '<span class="bc-pct">' + bPct.toFixed(1) + '%</span>' +
+          '<span class="bc-note">' + scopeNote + carryNote + '</span>' +
+        '</div>' +
+        '<div class="bc-stats">' +
+          '<span class="bc-s"><i>\u5df2\u7528</i><b style="color:' + bColor + ';">' + bUsed.toFixed(2) + '</b></span>' +
+          (bPend > 0 ? '<span class="bc-sep"></span><span class="bc-s"><i>\u5f85\u6263</i><b style="color:' + pendNoteColor + ';" title="' + escHtml(pendTitle) + '">' + bPend.toFixed(2) + '</b></span>' : '') +
+          (bPend > 0 ? '<span class="bc-sep"></span><span class="bc-s"><i>\u53ef\u7528</i><b style="color:' + (bAvail >= 0 ? 'var(--red)' : 'var(--green)') + ';">' + (bAvail >= 0 ? bAvail.toFixed(2) : '-' + Math.abs(bAvail).toFixed(2)) + '</b></span>' : '') +
+          '<span class="bc-sep"></span><span class="bc-s"><i>\u5269\u4f59</i><b style="color:' + (bRemain >= 0 ? 'var(--red)' : 'var(--green)') + ';">' + bRemainTxt + '</b></span>' +
+        '</div>' +
+        '<div class="bc-bar-row">' + barHtml + '<span class="bc-status" style="color:' + bStatusColor + ';">' + bMsg + '</span></div>' +
         (creditUnpaid > 0
-          ? '\uff0c<span class="bh-u" style="color:#64748b;">\ud83d\udcb3 \u4fe1\u7528\u5f85\u8fd8 <b style="color:#475569;">' + creditUnpaid.toFixed(2) + '</b>' +
-            ' <a href="javascript:markAllCreditRepaid(\'' + ym + '\')" style="color:#6366f1;text-decoration:none;">\u6807\u8bb0\u5df2\u8fd8</a></span>'
+          ? '<div class="bc-credit">\uD83D\uDCB3 \u4fe1\u7528\u5f85\u8fd8 <b>' + creditUnpaid.toFixed(2) + '</b>' +
+            ' <a href="javascript:markAllCreditRepaid(\'' + ym + '\')">\u6807\u8bb0\u5df2\u8fd8</a></div>'
           : '') +
-        // \u26a0 2026-10-18\uff1a\u6ce8\u8bb0\u4e00\u5b9a\u8981\u8ddf\u5728\u300c\u4f7f\u7528 XX%\u300d\u540e\u9762\u3001\u72b6\u6001\u63d0\u793a\u4e4b\u524d\uff0c
-        //   \u5426\u5219\u4f1a\u88ab\u72ec\u5360\u4e00\u884c\u7684\u72b6\u6001\u63d0\u793a\u6324\u5230\u7b2c\u4e09\u884c\uff08\u4e3b\u4eba\u6307\u51fa\u7684 3 \u884c\u95ee\u9898\uff09\u3002
-        scopeNote + carryNote +
-        '</div>' +
-        // \u72b6\u6001\u63d0\u793a\u4e0e\u8fdb\u5ea6\u6761\u540c\u4e00\u884c\uff0c\u72b6\u6001\u9760\u53f3\u5bf9\u9f50
-        '<div class="bh-bar-row">' +
-        barHtml +
-        '<span class="bh-status-r" style="color:' + bStatusColor + ';">' + bMsg + '</span>' +
-        '</div>' +
-      '</div>'
+      '</div>';
     }
 
     el.innerHTML = '<div style="display:flex;flex-direction:column;gap:14px;font-size:13px;">' +
       '<div>' +
-        '<div style="font-size:12px;font-weight:600;color:var(--indigo);margin-bottom:4px;">📅 本月</div>' +
         // 顺序：预算行在上，分类 TOP3 在下（2026-10-01 你要求）
         budgetHtml +
         '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;">' + topHtml + '</div>' +
@@ -8741,7 +8961,7 @@ function renderTrendChart(all) {
     },
     options: { responsive: true, maintainAspectRatio: false,
       animation: { duration: 800, easing: 'easeOutQuart' },
-      plugins: { legend: { position: 'top', labels: { boxWidth: 16, font: { size: 13, weight: 'normal', color: '#0f172a' } } } },
+      plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, boxHeight: 10, padding: 14, font: { size: 12.5, weight: 'normal', color: '#475569' } } } },
       scales: { x: { grid: { display: false }, ticks: { font: { size: 12, weight: 'normal', color: '#0f172a' } } }, y: { beginAtZero: true, grid: { display: false }, ticks: { font: { size: 12, weight: 'normal', color: '#0f172a' } } } } }
   });
 }
@@ -8810,7 +9030,7 @@ function renderBarChart(all) {
     },
     options: { responsive: true, maintainAspectRatio: false,
       animation: { duration: 700, easing: 'easeOutQuart' },
-      plugins: { legend: { position: 'top', labels: { boxWidth: 16, font: { size: 13, weight: 'normal', color: '#0f172a' } },
+      plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, boxHeight: 10, padding: 12, font: { size: 13, weight: 'normal', color: '#0f172a' } },
         onClick: function(e, legendItem, legend) {
           // 点哪个只显示哪个；再点一次当前显示的，恢复全部显示
           var chart = legend.chart;
@@ -8846,7 +9066,7 @@ function renderYearChart(all) {
     },
     options: { responsive: true, maintainAspectRatio: false,
       animation: { duration: 700, easing: 'easeOutQuart' },
-      plugins: { legend: { position: 'top', labels: { boxWidth: 16, font: { size: 13, weight: 'normal', color: '#0f172a' } },
+      plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, boxHeight: 10, padding: 12, font: { size: 13, weight: 'normal', color: '#0f172a' } },
         onClick: function(e, legendItem, legend) {
           // 点哪个只显示哪个；再点一次当前显示的，恢复全部显示
           var chart = legend.chart;
@@ -9204,10 +9424,12 @@ function renderStatsDays(recs, overrideYear, overrideMonth) {
     const depositAmt = list.filter(x => roleOf(x.category) === 'saveIn' || roleOf(x.category) === 'saveOut').reduce((s,x) => s + x.amount, 0);
     // 日历格子：支出=每笔支出扣除被关联退款后的净额；退款算收入（到账也是钱进来了）
     const expense = list.filter(x => x.type==='expense' && !isNonConsumeExpense(x.category)).reduce((s,x) => s + effectiveExpenseOf(x, recMap), 0);
+    const _td = new Date();
+    const isToday = (y === _td.getFullYear() && m === _td.getMonth() + 1 && d === _td.getDate());
     const showIncome = income + refund;
     const hasData = showIncome > 0 || rawExp > 0 || investAmt > 0 || depositAmt > 0;
     const marks = (investAmt > 0 ? '<span title="理财活动">💹</span>' : '') + (depositAmt > 0 ? '<span title="存款活动">🏦</span>' : '');
-    html += '<div class="day-g' + (hasData ? ' has-data' : '') + '" onclick="showDayDetail(' + y + ',' + m + ',' + d + ')">' +
+    html += '<div class="day-g' + (hasData ? ' has-data' : '') + (isToday ? ' today' : '') + '" onclick="showDayDetail(' + y + ',' + m + ',' + d + ')">' +
       '<div class="day">' + d + '</div>' +
       (expense > 0 || showIncome > 0 ? '<div class="day-amt" style="font-size:13px;display:flex;justify-content:center;gap:4px;">' +
         (showIncome > 0 ? '<span style="color:var(--red);">' + showIncome.toFixed(1) + '</span>' : '') +
@@ -13332,6 +13554,7 @@ function renderStatsDaysChart(recs) {
       options: {
         responsive: true, maintainAspectRatio: false,
         animation: { duration: 600, easing: 'easeOutQuart' },
+        plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, boxHeight: 10, padding: 12, font: { size: 12.5, weight: 'normal', color: '#475569' } } } },
         onClick: function(e, el) {
           var chart = this;
           var idx = null;
@@ -13365,7 +13588,7 @@ function renderStatsDaysChart(recs) {
           x: { grid: { display: false }, ticks: { font: { size: 10, weight: 'normal', color: '#0f172a' } } },
           y: { beginAtZero: true, grid: { display: false }, ticks: { font: { size: 11, weight: 'normal', color: '#0f172a' } } }
         },
-        plugins: { legend: { position: 'top', labels: { boxWidth: 16, font: { size: 12, weight: 'normal', color: '#0f172a' } },
+        plugins: { legend: { position: 'top', align: 'end', labels: { boxWidth: 14, boxHeight: 10, padding: 12, font: { size: 12, weight: 'normal', color: '#0f172a' } },
           onClick: function(e, legendItem, legend) {
             // 点哪个只显示哪个；再点一次当前显示的，恢复全部显示
             var chart = legend.chart;
@@ -13770,7 +13993,10 @@ document.addEventListener("DOMContentLoaded", function () { try { initCreditStic
 <!-- 回收站弹层：查看/恢复/彻底删除已删除的记录 -->
 <div class="cat-modal" id="trashModal" onclick="if(event.target===this)closeTrash()">
   <div class="cat-modal-inner" style="max-width:760px;">
-    <h3>🗑️ 回收站</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <h3 style="margin:0;">🗑️ 回收站</h3>
+      <button class="btn btn-sm" onclick="closeTrash()" title="关闭" aria-label="关闭" style="background:#f1f3f7;border:none;color:#94a3b8;width:30px;height:30px;border-radius:8px;font-size:14px;line-height:1;">✕</button>
+    </div>
     <div id="trashHint" style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">这里放着你删掉的记录，可以恢复回来喵～</div>
     <div style="display:flex;gap:6px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
       <select id="trashTypeFilter" onchange="renderTrashList()" style="font-size:12px;padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;outline:none;">
@@ -13784,16 +14010,13 @@ document.addEventListener("DOMContentLoaded", function () { try { initCreditStic
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;padding:7px 10px;background:rgba(99,102,241,.06);border-radius:9px;">
       <span style="font-size:12px;color:var(--text-secondary);">自动清理：保留</span>
       <input id="trashKeepDays" type="number" min="0" max="3650" step="1" value="30" onchange="applyTrashKeepDays()" style="width:64px;font-size:12px;padding:4px 6px;border:1.5px solid var(--border);border-radius:7px;background:#fff;outline:none;text-align:center;">
-      <span style="font-size:12px;color:var(--text-secondary);">天，超期的自动删掉</span>
+      <span style="font-size:12px;color:var(--text-secondary);">天</span>
       <span style="font-size:11.5px;color:var(--text-muted);">（0 = 永久保留）</span>
-      <span id="trashKeepHint" style="font-size:11.5px;color:var(--indigo);margin-left:auto;"></span>
-    </div>
+          </div>
     <div id="trashList" style="max-height:46vh;overflow-y:auto;border:1px solid var(--border);border-radius:10px;padding:6px;"></div>
     <div style="margin-top:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
       <button class="btn btn-sm btn-outline" onclick="restoreAllTrash()" style="color:#6366f1;border-color:#6366f1;">↩️ 全部恢复</button>
       <button class="btn btn-sm btn-danger" onclick="emptyTrash()">🧹 清空回收站</button>
-      <span style="flex:1;"></span>
-      <button class="btn btn-sm" onclick="closeTrash()" style="background:#eef0f3;border:none;color:var(--text-secondary);">关闭</button>
     </div>
   </div>
 </div>
